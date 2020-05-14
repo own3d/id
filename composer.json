@@ -1,0 +1,48 @@
+{
+  "name": "own3d/id",
+  "description": "PHP OWN3D ID API Client for Laravel 5+",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "René Preuß",
+      "email": "rene.p@own3d.tv"
+    }
+  ],
+  "require": {
+    "php": ">=7.2",
+    "ext-json": "*",
+    "illuminate/support": "^6.0",
+    "illuminate/console": "^6.0",
+    "guzzlehttp/guzzle": "^6.3",
+    "socialiteproviders/manager": "^3.4"
+  },
+  "require-dev": {
+    "phpunit/phpunit": "^8.0",
+    "orchestra/testbench": "~4.0",
+    "codedungeon/phpunit-result-printer": "^0.26.2"
+  },
+  "autoload": {
+    "psr-4": {
+      "Own3d\\Id\\": "src"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "Own3d\\Id\\Tests\\": "tests"
+    }
+  },
+  "scripts": {
+    "test": "vendor/bin/phpunit",
+    "docs": "php generator/generate-docs.php"
+  },
+  "extra": {
+    "laravel": {
+      "providers": [
+        "Own3d\\Id\\Providers\\Own3dIdServiceProvider"
+      ],
+      "aliases": {
+        "Own3dId": "Own3d\\Id\\Facades\\Own3dId"
+      }
+    }
+  }
+}
