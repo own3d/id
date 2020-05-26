@@ -1,9 +1,9 @@
 <?php
 
 return [
-    'client_id'     => env('BITINFLOW_ACCOUNTS_KEY', ''),
-    'client_secret' => env('BITINFLOW_ACCOUNTS_SECRET', ''),
-    'redirect_url'  => env('BITINFLOW_ACCOUNTS_REDIRECT_URI', ''),
-    'base_url'      => env('BITINFLOW_ACCOUNTS_BASE_URI', ''),
-    'model'         => env('BITINFLOW_ACCOUNTS_MODEL', \Illuminate\Foundation\Auth\User::class),
+    'client_id'     => env('OWN3D_ID_KEY', ''),
+    'client_secret' => env('OWN3D_ID_SECRET', ''),
+    'redirect_url'  => env('OWN3D_ID_REDIRECT_URI', ''),
+    'base_url'      => env('OWN3D_ID_BASE_URI', ''),
+    'model'         => env('OWN3D_ID_MODEL', \Illuminate\Foundation\Auth\User::class),
 ];
