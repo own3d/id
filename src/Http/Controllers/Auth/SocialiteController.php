@@ -1,6 +1,6 @@
 <?php
 
-namespace Own3d\Id\Http\Controllers\Oauth;
+namespace Own3d\Id\Http\Controllers\Auth;
 
 use Illuminate\Foundation\Auth\User;
 use Illuminate\Support\Facades\Auth;
