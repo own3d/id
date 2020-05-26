@@ -248,4 +248,9 @@ class Result
 
         return $this;
     }
+
+    public function response()
+    {
+        return $this->response;
+    }
 }
