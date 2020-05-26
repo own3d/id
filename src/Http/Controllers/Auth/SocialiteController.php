@@ -23,7 +23,7 @@ class SocialiteController extends Controller
         $model = config('own3d-id.model');
         $userSocial = Socialite::driver(Provider::IDENTIFIER)->stateless()->user();
         /** @var User $user */
-        $user = $model::where(['own3d_id' => $userSocial->getEmail()])->first();
+        $user = $model::where(['own3d_id' => $userSocial->getId()])->first();
 
         $attributes = [
             'name' => $userSocial->getName(),
