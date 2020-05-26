@@ -19,7 +19,7 @@ class Provider extends AbstractProvider implements ProviderInterface
     /**
      * Unique Provider Identifier.
      */
-    const IDENTIFIER = 'OWN3D_ID';
+    const IDENTIFIER = 'own3d-id';
 
     /**
      * {@inheritdoc}

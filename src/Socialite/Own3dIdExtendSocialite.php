@@ -9,7 +9,6 @@ use SocialiteProviders\Manager\SocialiteWasCalled;
  */
 class Own3dIdExtendSocialite
 {
-
     /**
      * Register the provider.
      *
@@ -18,7 +17,7 @@ class Own3dIdExtendSocialite
     public function handle(SocialiteWasCalled $socialiteWasCalled)
     {
         $socialiteWasCalled->extendSocialite(
-            'own3d-id', __NAMESPACE__ . '\Provider'
+            Provider::IDENTIFIER, __NAMESPACE__ . '\Provider'
         );
     }
 }
