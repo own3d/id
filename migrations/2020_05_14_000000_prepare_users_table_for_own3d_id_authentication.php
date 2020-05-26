@@ -15,8 +15,8 @@ class PrepareUsersTableForSocialAuthentication extends Migration
     {
         Schema::table('users', function (Blueprint $table) {
             $table->string('password')->nullable()->change();
-            $table->string('own3d_id')->unique();
-            $table->text('own3d_user');
+            $table->string('own3d_id')->nullable()->unique();
+            $table->text('own3d_user')->nullable();
         });
     }
 
