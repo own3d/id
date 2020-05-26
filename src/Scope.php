@@ -8,4 +8,5 @@ namespace Own3d\Id\Enums;
 class Scope
 {
     const USER_READ = 'user:read';
+    const CONNECTIONS = 'connections';
 }

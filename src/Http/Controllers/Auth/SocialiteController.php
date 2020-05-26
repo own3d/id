@@ -15,10 +15,7 @@ class SocialiteController extends Controller
 {
     public function redirect()
     {
-        return Socialite::driver(Provider::IDENTIFIER)
-            ->scopes(config('own3d-id.scopes', ['*']))
-            ->stateless()
-            ->redirect();
+        return Socialite::driver(Provider::IDENTIFIER)->stateless()->redirect();
     }
 
     public function callback()

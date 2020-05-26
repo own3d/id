@@ -24,7 +24,7 @@ class Provider extends AbstractProvider implements ProviderInterface
     /**
      * {@inheritdoc}
      */
-    protected $scopes = [Scope::USER_READ];
+    protected $scopes = [Scope::USER_READ, Scope::CONNECTIONS];
 
     /**
      * {@inherticdoc}.
