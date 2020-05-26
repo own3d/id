@@ -15,13 +15,16 @@ class SocialiteController extends Controller
 {
     public function redirect()
     {
-        return Socialite::driver(Provider::IDENTIFIER)->redirect();
+        return Socialite::driver(Provider::IDENTIFIER)
+            ->scopes(config('own3d-id.scopes', ['*']))
+            ->stateless()
+            ->redirect();
     }
 
     public function callback()
     {
         $model = config('own3d-id.model');
-        $userSocial = Socialite::driver(Provider::IDENTIFIER)->user();
+        $userSocial = Socialite::driver(Provider::IDENTIFIER)->stateless()->user();
         /** @var User $user */
         $user = $model::where(['own3d_id' => $userSocial->getEmail()])->first();
 
