@@ -75,6 +75,51 @@ You will need to add an entry to the services configuration file so that after c
 ],
 ```
 
+## Using Own3d ID ad Primary Login Service
+
+1. Migrate the database
+2. Update user model
+3. Update web routes
+
+```php
+use Own3d\Id\Traits\Own3dIdUser;
+
+class User {
+    use Own3dIdUser;
+
+    /**
+     * The attributes that should be cast to native types.
+     *
+     * @var array
+     */
+    protected $casts = [
+        'email_verified_at' => 'datetime',
+        'own3d_user' => 'array',
+        'own3d_id' => 'int'
+    ];
+}
+```
+
+```php
+use Own3d\Id\Own3dId;
+
+/*
+|--------------------------------------------------------------------------
+| Web Routes
+|--------------------------------------------------------------------------
+|
+| Here is where you can register web routes for your application. These
+| routes are loaded by the RouteServiceProvider within a group which
+| contains the "web" middleware group. Now create something great!
+|
+*/
+
+Own3dId::routes();
+
+// route 'home' is required
+Route::get('/home', 'HomeController@index')->name('home');
+```
+
 ## Examples
 
 #### Basic
