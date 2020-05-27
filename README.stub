@@ -60,7 +60,7 @@ Add environmental variables to your `.env`
 ```
 OWN3D_ID_KEY=
 OWN3D_ID_SECRET=
-OWN3D_ID_REDIRECT_URI=${APP_URI}/login/callback
+OWN3D_ID_REDIRECT_URI=${APP_URL}/login/callback
 ```
 
 You will need to add an entry to the services configuration file so that after config files are cached for usage in production environment (Laravel command `artisan config:cache`) all config is still available.

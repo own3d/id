@@ -2,7 +2,13 @@
 
 namespace Own3d\Id\Http\Controllers\Auth;
 
+use Illuminate\Contracts\Auth\StatefulGuard;
+use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Foundation\Auth\User;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Request;
+use Illuminate\Http\Response;
+use Illuminate\Routing\Redirector;
 use Illuminate\Support\Facades\Auth;
 use Laravel\Socialite\Facades\Socialite;
 use Own3d\Id\Http\Controllers\Controller;
@@ -38,7 +44,51 @@ class SocialiteController extends Controller
             $user->forceFill($attributes)->save();
         }
 
-        Auth::login($user);
+        $this->guard()->login($user);
         return redirect()->route('home');
+    }
+
+    /**
+     * Log the user out of the application.
+     *
+     * @param Request $request
+     * @return Application|RedirectResponse|Response|Redirector
+     */
+    public function logout(Request $request)
+    {
+        $this->guard()->logout();
+
+        $request->session()->invalidate();
+
+        $request->session()->regenerateToken();
+
+        if ($response = $this->loggedOut($request)) {
+            return $response;
+        }
+
+        return $request->wantsJson()
+            ? new Response('', 204)
+            : redirect('/');
+    }
+
+    /**
+     * The user has logged out of the application.
+     *
+     * @param Request $request
+     * @return mixed
+     */
+    protected function loggedOut(Request $request)
+    {
+        //
+    }
+
+    /**
+     * Get the guard to be used during authentication.
+     *
+     * @return StatefulGuard
+     */
+    protected function guard()
+    {
+        return Auth::guard();
     }
 }

@@ -60,7 +60,7 @@ Add environmental variables to your `.env`
 ```
 OWN3D_ID_KEY=
 OWN3D_ID_SECRET=
-OWN3D_ID_REDIRECT_URI=${APP_URI}/login/callback
+OWN3D_ID_REDIRECT_URI=${APP_URL}/login/callback
 ```
 
 You will need to add an entry to the services configuration file so that after config files are cached for usage in production environment (Laravel command `artisan config:cache`) all config is still available.
@@ -179,7 +179,42 @@ Own3dId::withClientId('abc123')->withToken('abcdef123456')->getAuthedUser();
 
 ## Documentation
 
+### Oauth
 
+```php
+public function retrievingToken(string $grantType, array $attributes)
+```
+
+### Users
+
+```php
+public function getAuthedUser()
+public function getUserConnections()
+```
+
+### Delete
+
+```php
+
+```
+
+### Get
+
+```php
+
+```
+
+### Post
+
+```php
+
+```
+
+### Put
+
+```php
+
+```
 
 [**OAuth Scopes Enums**](https://bitbucket.org/own3dtv/own3d-id/src/master/src/Enums/Scope.php)
 

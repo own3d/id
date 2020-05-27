@@ -97,6 +97,7 @@ class Own3dId
             ->namespace('\Own3d\Id\Http\Controllers')
             ->group(function () {
                 Route::get('login', 'Auth\SocialiteController@redirect')->name('login');
+                Route::post('logout', 'Auth\SocialiteController@logout')->name('logout');
                 Route::get('login/callback', 'Auth\SocialiteController@callback');
             });
     }
