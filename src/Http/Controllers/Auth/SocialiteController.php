@@ -39,7 +39,7 @@ class SocialiteController extends Controller
         ];
 
         if (!$user) {
-            $user = $model::create($attributes);
+            $user = $model::query()->forceCreate($attributes);
         } else {
             $user->forceFill($attributes)->save();
         }
