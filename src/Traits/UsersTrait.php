@@ -31,4 +31,19 @@ trait UsersTrait
     {
         return $this->get('linked-social-accounts');
     }
+
+    /**
+     * Returns a data array
+     *
+     * @param string $platform Platform slug
+     * @param string $id Platform user id
+     * @return Result Result object
+     */
+    public function getUserConnectionByPlatformId(string $platform, string $id): Result
+    {
+        return $this->post('linked-social-accounts/lookup', [
+            'platform' => $platform,
+            'id' => $id,
+        ]);
+    }
 }
