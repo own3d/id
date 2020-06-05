@@ -3,6 +3,7 @@
 namespace Own3d\Id\Http\Controllers\Auth;
 
 use Carbon\CarbonInterface;
+use Illuminate\Auth\Events\Registered;
 use Illuminate\Contracts\Auth\StatefulGuard;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Foundation\Auth\User;
@@ -43,6 +44,7 @@ class SocialiteController extends Controller
 
         if (!$user) {
             $user = $model::query()->forceCreate($attributes);
+            event(new Registered($user));
         } else {
             $user->forceFill($attributes)->save();
         }
