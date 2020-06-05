@@ -2,6 +2,7 @@
 
 namespace Own3d\Id\Http\Controllers\Auth;
 
+use Carbon\CarbonInterface;
 use Illuminate\Contracts\Auth\StatefulGuard;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Foundation\Auth\User;
@@ -11,6 +12,7 @@ use Illuminate\Http\Response;
 use Illuminate\Routing\Redirector;
 use Illuminate\Support\Facades\Auth;
 use Laravel\Socialite\Facades\Socialite;
+use Laravel\Socialite\Two\User as UserSocial;
 use Own3d\Id\Http\Controllers\Controller;
 use Own3d\Id\Socialite\Provider;
 
@@ -27,6 +29,7 @@ class SocialiteController extends Controller
     public function callback()
     {
         $model = config('own3d-id.model');
+        $issuedAt = now();
         $userSocial = Socialite::driver(Provider::IDENTIFIER)->stateless()->user();
         /** @var User $user */
         $user = $model::where(['own3d_id' => $userSocial->getId()])->first();
@@ -35,7 +38,7 @@ class SocialiteController extends Controller
             'name' => $userSocial->getName(),
             'email' => $userSocial->getEmail(),
             'own3d_id' => $userSocial->getId(),
-            'own3d_user' => $userSocial->user,
+            'own3d_user' => $this->createOwn3dUserArray($userSocial, $issuedAt),
         ];
 
         if (!$user) {
@@ -90,5 +93,17 @@ class SocialiteController extends Controller
     protected function guard()
     {
         return Auth::guard();
+    }
+
+    private function createOwn3dUserArray(UserSocial $userSocial, CarbonInterface $issuedAt)
+    {
+        return array_merge($userSocial->user, [
+            'oauth' => [
+                'access_token' => $userSocial->token,
+                'refresh_token' => $userSocial->refreshToken,
+                'expires_in' => $userSocial->expiresIn,
+                'issued_at' => $issuedAt,
+            ]
+        ]);
     }
 }
