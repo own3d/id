@@ -97,7 +97,7 @@ class SocialiteController extends Controller
         return Auth::guard();
     }
 
-    private function createOwn3dUserArray(UserSocial $userSocial, CarbonInterface $issuedAt)
+    protected function createOwn3dUserArray(UserSocial $userSocial, CarbonInterface $issuedAt)
     {
         return array_merge($userSocial->user, [
             'oauth' => [
