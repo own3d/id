@@ -135,11 +135,10 @@ class Own3dIdGuard
      *
      * Add this to your AuthServiceProvider::boot() method.
      *
-     * @param string $secret
      * @param string $driver
      * @noinspection PhpUnusedParameterInspection
      */
-    public static function register(string $secret, $driver = 'own3d-id'): void
+    public static function register($driver = 'own3d-id'): void
     {
         self::setRsaKeyLoader(fn() => file_get_contents(__DIR__ . '/../oauth-public.key'));
         Auth::extend($driver, static function ($app, $name, array $config) {
