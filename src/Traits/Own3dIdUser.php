@@ -4,6 +4,7 @@ namespace Own3d\Id\Traits;
 
 use Carbon\CarbonInterface;
 use Illuminate\Support\Carbon;
+use Own3d\Id\Auth\HasOwn3dIdToken;
 
 /**
  * @author René Preuß <rene.p@own3d.tv>
@@ -12,6 +13,8 @@ use Illuminate\Support\Carbon;
  */
 trait Own3dIdUser
 {
+    use HasOwn3dIdToken;
+
     public function getOwn3dAccessToken(): ?string
     {
         return $this->own3d_user['oauth']['access_token'] ?? null;
