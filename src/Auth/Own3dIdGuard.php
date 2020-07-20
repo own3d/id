@@ -140,7 +140,7 @@ class Own3dIdGuard
      */
     public static function register($driver = 'own3d-id'): void
     {
-        self::setRsaKeyLoader(fn() => file_get_contents(__DIR__ . '/../oauth-public.key'));
+        self::setRsaKeyLoader(fn() => file_get_contents(__DIR__ . '/../../oauth-public.key'));
         Auth::extend($driver, static function ($app, $name, array $config) {
             return new RequestGuard(static function ($request) use ($config) {
                 return (new self(
