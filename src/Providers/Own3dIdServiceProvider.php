@@ -16,7 +16,9 @@ class Own3dIdServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        $this->loadMigrationsFrom(__DIR__.'/../../migrations');
+        if (!Own3dId::$skipMigrations) {
+            $this->loadMigrationsFrom(__DIR__ . '/../../migrations');
+        }
         $this->publishes([
             dirname(__DIR__) . '/../config/own3d-id.php' => config_path('own3d-id.php'),
         ], 'config');

@@ -26,43 +26,45 @@ class Own3dId
     use ApiOperations\Post;
     use ApiOperations\Put;
 
-    private static $baseUrl = 'https://id.own3d.tv/api/';
+    public static string $baseUrl = 'https://id.own3d.tv/api/';
+
+    public static bool $skipMigrations = false;
 
     /**
      * Guzzle is used to make http requests.
      * @var Client
      */
-    protected $client;
+    protected Client $client;
 
     /**
      * Paginator object.
      * @var Paginator
      */
-    protected $paginator;
+    protected Paginator $paginator;
 
     /**
      * OWN3D ID OAuth token.
      * @var string|null
      */
-    protected $token = null;
+    protected ?string $token = null;
 
     /**
      * OWN3D ID client id.
      * @var string|null
      */
-    protected $clientId = null;
+    protected ?string $clientId = null;
 
     /**
      * OWN3D ID client secret.
      * @var string|null
      */
-    protected $clientSecret = null;
+    protected ?string $clientSecret = null;
 
     /**
      * OWN3D ID OAuth redirect url.
      * @var string|null
      */
-    protected $redirectUri = null;
+    protected ?string $redirectUri = null;
 
     /**
      * Constructor.
@@ -91,11 +93,11 @@ class Own3dId
      *
      * @param array $options
      */
-    public static function routes($options = [])
+    public static function routes($options = []): void
     {
         Route::middleware($options['middleware'] ?? 'web')
             ->namespace('\Own3d\Id\Http\Controllers')
-            ->group(function () {
+            ->group(static function () {
                 Route::get('login', 'Auth\SocialiteController@redirect')->name('login');
                 Route::post('logout', 'Auth\SocialiteController@logout')->name('logout');
                 Route::get('login/callback', 'Auth\SocialiteController@callback');
@@ -238,7 +240,7 @@ class Own3dId
      * @return string|null
      * @throws RequestRequiresAuthenticationException
      */
-    public function getToken()
+    public function getToken(): string
     {
         if (!$this->token) {
             throw new RequestRequiresAuthenticationException;
@@ -274,8 +276,8 @@ class Own3dId
     }
 
     /**
-     * @param string         $path
-     * @param array          $parameters
+     * @param string $path
+     * @param array $parameters
      * @param Paginator|null $paginator
      *
      * @return Result
@@ -288,8 +290,8 @@ class Own3dId
     }
 
     /**
-     * @param string         $path
-     * @param array          $parameters
+     * @param string $path
+     * @param array $parameters
      * @param Paginator|null $paginator
      *
      * @return Result
@@ -302,8 +304,8 @@ class Own3dId
     }
 
     /**
-     * @param string         $path
-     * @param array          $parameters
+     * @param string $path
+     * @param array $parameters
      * @param Paginator|null $paginator
      *
      * @return Result
@@ -316,8 +318,8 @@ class Own3dId
     }
 
     /**
-     * @param string         $path
-     * @param array          $parameters
+     * @param string $path
+     * @param array $parameters
      * @param Paginator|null $paginator
      *
      * @return Result
@@ -330,8 +332,8 @@ class Own3dId
     }
 
     /**
-     * @param string     $method
-     * @param string     $path
+     * @param string $method
+     * @param string $path
      * @param array|null $body
      *
      * @return Result
@@ -350,10 +352,10 @@ class Own3dId
     /**
      * Build query & execute.
      *
-     * @param string     $method HTTP method
-     * @param string     $path Query path
-     * @param array      $parameters Query parameters
-     * @param Paginator  $paginator Paginator object
+     * @param string $method HTTP method
+     * @param string $path Query path
+     * @param array $parameters Query parameters
+     * @param Paginator $paginator Paginator object
      * @param mixed|null $jsonBody JSON data
      *
      * @return Result     Result object
@@ -391,7 +393,7 @@ class Own3dId
     {
         $parts = [];
         foreach ($query as $name => $value) {
-            $value = (array) $value;
+            $value = (array)$value;
             array_walk_recursive($value, function ($value) use (&$parts, $name) {
                 $parts[] = urlencode($name) . '=' . urlencode($value);
             });
