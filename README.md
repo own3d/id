@@ -13,6 +13,32 @@ PHP OWN3D ID API Client for Laravel 5+
 
 ## Installation
 
+Add our own3d composer repository into `composer.json`:
+
+```
+"repositories": [
+    {
+        "type": "composer",
+        "url": "https://composer.dev.own3d.tv"
+    }
+],
+```
+
+Optional: Add `composer.dev.own3d.tv` auth key into `auth.json`:
+
+```
+{
+    "http-basic": {
+        "composer.dev.own3d.tv": {
+            "username": "composer",
+            "password": "..."
+        }
+    },
+}
+```
+
+Install composer package:
+
 ```
 composer require own3d/id
 ```
@@ -190,6 +216,7 @@ public function retrievingToken(string $grantType, array $attributes)
 ```php
 public function getAuthedUser()
 public function getUserConnections()
+public function getUserConnectionByPlatformId(string $platform, string $id)
 ```
 
 ### Delete
