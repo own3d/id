@@ -278,6 +278,20 @@ class Own3dId
     }
 
     /**
+     * Fluid OAuth user setter.
+     *
+     * @param Traits\Own3dIdUser $user OWN3D ID OAuth user
+     *
+     * @return $this
+     */
+    public function actingAs(Traits\Own3dIdUser $user): self
+    {
+        $this->withToken($user->getOwn3dAccessToken());
+
+        return $this;
+    }
+
+    /**
      * @param string $path
      * @param array $parameters
      * @param Paginator|null $paginator
