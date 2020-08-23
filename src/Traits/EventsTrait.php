@@ -16,11 +16,11 @@ trait EventsTrait
      * Returns a event object
      *
      * @param string $type
-     * @param string $data
+     * @param array $data
      * @param string $version
      * @return Result Result object
      */
-    public function sendEvent(string $type, string $data, string $version = '2020-08-22'): Result
+    public function sendEvent(string $type, array $data, string $version): Result
     {
         return $this->json('POST', 'events', [
             'type' => $type,
