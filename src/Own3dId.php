@@ -20,11 +20,13 @@ class Own3dId
 {
     use Traits\OauthTrait;
     use Traits\UsersTrait;
+    use Traits\EventsTrait;
 
     use ApiOperations\Delete;
     use ApiOperations\Get;
     use ApiOperations\Post;
     use ApiOperations\Put;
+    use ApiOperations\Json;
 
     public static string $baseUrl = 'https://id.own3d.tv/api/';
 
@@ -343,7 +345,8 @@ class Own3dId
     public function json(string $method, string $path = '', array $body = null): Result
     {
         if ($body) {
-            $body = json_encode(['data' => $body]);
+            /** @noinspection CallableParameterUseCaseInTypeContextInspection */
+            $body = json_encode($body, JSON_THROW_ON_ERROR);
         }
 
         return $this->query($method, $path, [], null, $body);
