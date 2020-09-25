@@ -42,4 +42,13 @@ trait Own3dIdUser
 
         return null;
     }
+
+    public function getOwn3dAvatarUrl(): string
+    {
+        if (!empty($this->own3d_user['avatar'])) {
+            return $this->own3d_user['avatar_url'];
+        }
+
+        return 'https://assets.cdn.own3d.tv/production/id/avatars/default.jpg';
+    }
 }
