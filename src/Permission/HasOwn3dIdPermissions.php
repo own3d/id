@@ -1,6 +1,6 @@
 <?php
 
-use Own3d\Id\Permission\Permission;
+namespace Own3d\Id\Permission;
 
 /**
  * @property int own3d_permissions
