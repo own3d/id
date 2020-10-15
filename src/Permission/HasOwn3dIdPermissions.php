@@ -5,7 +5,7 @@ use Own3d\Id\Permission\Permission;
 /**
  * @property int own3d_permissions
  */
-class HasOwn3dIdPermissions
+trait HasOwn3dIdPermissions
 {
     public function hasOwn3dPermission($flag): bool
     {

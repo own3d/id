@@ -3,6 +3,7 @@
 namespace Own3d\Id\Traits;
 
 use Carbon\CarbonInterface;
+use HasOwn3dIdPermissions;
 use Illuminate\Support\Carbon;
 use Own3d\Id\Auth\HasOwn3dIdToken;
 
@@ -13,7 +14,7 @@ use Own3d\Id\Auth\HasOwn3dIdToken;
  */
 trait Own3dIdUser
 {
-    use HasOwn3dIdToken;
+    use HasOwn3dIdToken, HasOwn3dIdPermissions;
 
     public function getOwn3dAccessToken(): ?string
     {
