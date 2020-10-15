@@ -3,9 +3,9 @@
 namespace Own3d\Id\Traits;
 
 use Carbon\CarbonInterface;
-use HasOwn3dIdPermissions;
 use Illuminate\Support\Carbon;
 use Own3d\Id\Auth\HasOwn3dIdToken;
+use Own3d\Id\Permission\HasOwn3dIdPermissions;
 
 /**
  * @author René Preuß <rene.p@own3d.tv>
