@@ -11,4 +11,9 @@ trait HasOwn3dIdPermissions
     {
         return (($this->own3d_permissions & Permission::ADMINISTRATOR) === Permission::ADMINISTRATOR) || (($this->own3d_permissions & $flag) === $flag);
     }
+
+    public function getOwn3dPermissionsAttribute(): int
+    {
+        return $this->own3d_user['permissions'];
+    }
 }
