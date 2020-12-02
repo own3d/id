@@ -61,6 +61,8 @@ $markdown = collect(class_uses(Own3dId::class))
 
         list($title, $methods) = $args;
 
+        if(count($methods) <= 0) return null;
+
         $markdown = '### ' . $title;
         $markdown .= PHP_EOL . PHP_EOL;
         $markdown .= '```php';
@@ -74,7 +76,7 @@ $markdown = collect(class_uses(Own3dId::class))
         $markdown .= '```';
 
         return $markdown;
-    })->join(PHP_EOL . PHP_EOL);
+    })->filter()->join(PHP_EOL . PHP_EOL);
 
 $markdown = str_replace("array (\n)", '[]', $markdown);
 

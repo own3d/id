@@ -219,28 +219,10 @@ public function getUserConnections()
 public function getUserConnectionByPlatformId(string $platform, string $id)
 ```
 
-### Delete
+### Events
 
 ```php
-
-```
-
-### Get
-
-```php
-
-```
-
-### Post
-
-```php
-
-```
-
-### Put
-
-```php
-
+public function sendEvent(string $type, array $data, string $version)
 ```
 
 [**OAuth Scopes Enums**](https://bitbucket.org/own3dtv/own3d-id/src/master/src/Enums/Scope.php)
