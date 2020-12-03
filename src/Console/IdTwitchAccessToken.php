@@ -8,14 +8,14 @@ use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Cache;
 use Own3d\Id\Exceptions\RequestRequiresClientIdException;
 use Own3d\Id\Own3dId;
+use Own3d\Id\Repository\AppTokenRepository;
 use Psr\SimpleCache\InvalidArgumentException;
 
 /**
- * @author René Preuß <rene.p@own3d.tv>
- *
  * Only intended for first-party apps.
  *
  * @internal This requires trusted oauth client credentials.
+ * @author René Preuß <rene.p@own3d.tv>
  */
 class IdTwitchAccessToken extends Command
 {
@@ -44,14 +44,22 @@ class IdTwitchAccessToken extends Command
      */
     public function handle(Own3dId $own3dId): int
     {
-        $result = $own3dId->post('/api/app-access-tokens/twitch');
+        /** @var AppTokenRepository $repository */
+        $repository = app(AppTokenRepository::class);
+
+        $result = $own3dId
+            ->withToken($repository->getAccessToken())
+            ->post('/api/app-access-tokens/twitch');
 
         if (!$result->success()) {
+            $this->error('Token failed to update.');
             return 1;
         }
 
         Cache::store(config('twitch-api.oauth_client_credentials.cache_store'))
             ->set(config('twitch-api.oauth_client_credentials.cache_key'), $result->data());
+
+        $this->info('Token successfully updated.');
 
         return 0;
     }
