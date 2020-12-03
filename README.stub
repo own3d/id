@@ -13,42 +13,10 @@ PHP OWN3D ID API Client for Laravel 5+
 
 ## Installation
 
-Add our own3d composer repository into `composer.json`:
-
-```
-"repositories": [
-    {
-        "type": "composer",
-        "url": "https://composer.dev.own3d.tv"
-    }
-],
-```
-
-Optional: Add `composer.dev.own3d.tv` auth key into `auth.json`:
-
-```
-{
-    "http-basic": {
-        "composer.dev.own3d.tv": {
-            "username": "composer",
-            "password": "..."
-        }
-    },
-}
-```
-
-Install composer package:
+Install the own3d id package with composer:
 
 ```
 composer require own3d/id
-```
-
-**If you use Laravel 5.5+ you are already done, otherwise continue.**
-
-Add Service Provider to your `app.php` configuration file:
-
-```php
-Own3d\Id\Providers\Own3dIdServiceProvider::class,
 ```
 
 ## Event Listener
@@ -58,17 +26,19 @@ Own3d\Id\Providers\Own3dIdServiceProvider::class,
 - The listener that you add for this provider is `'Own3d\\Id\\Socialite\\Own3dIdExtendSocialite@handle',`.
 - Note: You do not need to add anything for the built-in socialite providers unless you override them with your own providers.
 
+```php
+use SocialiteProviders\Manager\SocialiteWasCalled;
+use Own3d\Id\Socialite\Own3dIdExtendSocialite;
 
-```
 /**
  * The event handler mappings for the application.
  *
  * @var array
  */
 protected $listen = [
-    \SocialiteProviders\Manager\SocialiteWasCalled::class => [
+    SocialiteWasCalled::class => [
         // add your listeners (aka providers) here
-        'Own3d\\Id\\Socialite\\Own3dIdExtendSocialite@handle',
+        Own3dIdExtendSocialite::class,
     ],
 ];
 ```
@@ -144,6 +114,19 @@ Own3dId::routes();
 
 // route 'home' is required
 Route::get('/home', 'HomeController@index')->name('home');
+```
+
+## Disable OWN3D ID Migrations
+
+If you don't want to use the own3d-migrations for you project, you may disable it in the `AppServiceProvider`.
+
+```php
+use Own3d\Id\Own3dId;
+
+public function register(): void
+{
+    Own3dId::$skipMigrations = true;
+}
 ```
 
 ## Examples
