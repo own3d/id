@@ -57,7 +57,14 @@ class IdTwitchAccessToken extends Command
         }
 
         Cache::store(config('twitch-api.oauth_client_credentials.cache_store'))
-            ->set(config('twitch-api.oauth_client_credentials.cache_key'), $result->data());
+            ->set(config('twitch-api.oauth_client_credentials.cache_key'), [
+                'access_token' => $result->data()->access_token,
+                'refresh_token' => $result->data()->refresh_token ?? null,
+                'expires_in' => $result->data()->expires_in,
+                'scope' => $result->data()->scopes,
+                'token_type' => $result->data()->expires_at,
+                'expires_at' => $result->data()->scopes,
+            ]);
 
         $this->info('Token successfully updated.');
 
