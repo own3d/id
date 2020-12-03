@@ -3,6 +3,7 @@
 namespace Own3d\Id\Providers;
 
 use Illuminate\Support\ServiceProvider;
+use Own3d\Id\Console;
 use Own3d\Id\Own3dId;
 
 /**
@@ -22,6 +23,8 @@ class Own3dIdServiceProvider extends ServiceProvider
         $this->publishes([
             dirname(__DIR__) . '/../config/own3d-id.php' => config_path('own3d-id.php'),
         ], 'config');
+
+        $this->registerCommands();
     }
 
     /**
@@ -42,8 +45,17 @@ class Own3dIdServiceProvider extends ServiceProvider
      * Get the services provided by the provider.
      * @return array
      */
-    public function provides()
+    public function provides(): array
     {
         return [Own3dId::class];
+    }
+
+    private function registerCommands(): void
+    {
+        if ($this->app->runningInConsole()) {
+            $this->commands([
+                Console\IdTwitchAccessToken::class,
+            ]);
+        }
     }
 }
