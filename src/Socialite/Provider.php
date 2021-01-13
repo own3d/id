@@ -37,7 +37,7 @@ class Provider extends AbstractProvider implements ProviderInterface
     protected function getAuthUrl($state)
     {
         return $this->buildAuthUrlFromBase(
-            'https://id.own3d.tv/oauth/authorize', $state
+            'https://id.stream.tv/oauth/authorize', $state
         );
     }
 
@@ -46,7 +46,7 @@ class Provider extends AbstractProvider implements ProviderInterface
      */
     protected function getTokenUrl()
     {
-        return 'https://id.own3d.tv/oauth/token';
+        return 'https://id.stream.tv/oauth/token';
     }
 
     /**
@@ -55,7 +55,7 @@ class Provider extends AbstractProvider implements ProviderInterface
     protected function getUserByToken($token)
     {
         $response = $this->getHttpClient()->get(
-            'https://id.own3d.tv/api/users', [
+            'https://id.stream.tv/api/users', [
             'headers' => [
                 'Accept' => 'application/json',
                 'Authorization' => 'Bearer ' . $token,
