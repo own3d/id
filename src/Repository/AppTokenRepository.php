@@ -25,7 +25,7 @@ class AppTokenRepository
     public function __construct()
     {
         $this->client = new Client([
-            'base_uri' => 'https://id.stream.tv/',
+            'base_uri' => 'https://id.own3d.tv/',
         ]);
     }
 
