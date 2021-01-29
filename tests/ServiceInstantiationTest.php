@@ -13,7 +13,6 @@ use Own3d\Id\Tests\TestCases\TestCase;
  */
 class ServiceInstantiationTest extends TestCase
 {
-
     public function testInstance(): void
     {
         $this->assertInstanceOf(Own3dId::class, app(Own3dId::class));

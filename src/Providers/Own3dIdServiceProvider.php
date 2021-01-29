@@ -13,11 +13,12 @@ class Own3dIdServiceProvider extends ServiceProvider
 {
     /**
      * Bootstrap the application services.
+     *
      * @return void
      */
     public function boot()
     {
-        if (!Own3dId::$skipMigrations) {
+        if (Own3dId::shouldRunMigrations()) {
             $this->loadMigrationsFrom(__DIR__ . '/../../migrations');
         }
         $this->publishes([
@@ -29,6 +30,7 @@ class Own3dIdServiceProvider extends ServiceProvider
 
     /**
      * Register the application services.
+     *
      * @return void
      */
     public function register()
@@ -43,6 +45,7 @@ class Own3dIdServiceProvider extends ServiceProvider
 
     /**
      * Get the services provided by the provider.
+     *
      * @return array
      */
     public function provides(): array

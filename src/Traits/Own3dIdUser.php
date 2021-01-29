@@ -9,12 +9,14 @@ use Own3d\Id\Permission\HasOwn3dIdPermissions;
 
 /**
  * @author René Preuß <rene.p@own3d.tv>
+ *
  * @property string own3d_id
  * @property array own3d_user
  */
 trait Own3dIdUser
 {
-    use HasOwn3dIdToken, HasOwn3dIdPermissions;
+    use HasOwn3dIdToken;
+    use HasOwn3dIdPermissions;
 
     public function getOwn3dAccessToken(): ?string
     {
@@ -46,7 +48,7 @@ trait Own3dIdUser
 
     public function getOwn3dAvatarUrl(): string
     {
-        if (!empty($this->own3d_user['avatar'])) {
+        if ( ! empty($this->own3d_user['avatar'])) {
             return $this->own3d_user['avatar_url'];
         }
 

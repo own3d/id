@@ -42,7 +42,7 @@ class SocialiteController extends Controller
             'own3d_user' => $this->createOwn3dUserArray($userSocial, $issuedAt),
         ];
 
-        if (!$user) {
+        if ( ! $user) {
             $user = $model::query()->forceCreate($attributes);
             event(new Registered($user));
         } else {
@@ -50,6 +50,7 @@ class SocialiteController extends Controller
         }
 
         $this->guard()->login($user);
+
         return redirect()->route('home');
     }
 
@@ -57,6 +58,7 @@ class SocialiteController extends Controller
      * Log the user out of the application.
      *
      * @param Request $request
+     *
      * @return Application|RedirectResponse|Response|Redirector
      */
     public function logout(Request $request)
@@ -80,11 +82,11 @@ class SocialiteController extends Controller
      * The user has logged out of the application.
      *
      * @param Request $request
+     *
      * @return mixed
      */
     protected function loggedOut(Request $request)
     {
-        //
     }
 
     /**
@@ -105,7 +107,7 @@ class SocialiteController extends Controller
                 'refresh_token' => $userSocial->refreshToken,
                 'expires_in' => $userSocial->expiresIn,
                 'issued_at' => $issuedAt,
-            ]
+            ],
         ]);
     }
 }

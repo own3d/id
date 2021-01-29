@@ -42,10 +42,12 @@ class AppTokenRepository
 
     /**
      * @param string $scope
-     * @return mixed
+     *
      * @throws GuzzleException
      * @throws RequestFreshAccessTokenException
      * @throws JsonException
+     *
+     * @return mixed
      */
     private function requestFreshAccessToken(string $scope)
     {
@@ -58,11 +60,11 @@ class AppTokenRepository
             ],
         ]);
 
-        if ($response->getStatusCode() !== 200) {
+        if (200 !== $response->getStatusCode()) {
             throw RequestFreshAccessTokenException::fromResponse($response);
         }
 
-        $response = json_decode((string)$response->getBody(), true, 512, JSON_THROW_ON_ERROR);
+        $response = json_decode((string) $response->getBody(), true, 512, JSON_THROW_ON_ERROR);
 
         Cache::put(self::ACCESS_TOKEN_CACHE_KEY, $response['access_token'], now()->addWeek());
 

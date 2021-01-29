@@ -15,7 +15,6 @@ use SocialiteProviders\Manager\OAuth2\User;
  */
 class Provider extends AbstractProvider implements ProviderInterface
 {
-
     /**
      * Unique Provider Identifier.
      */
@@ -56,11 +55,11 @@ class Provider extends AbstractProvider implements ProviderInterface
     {
         $response = $this->getHttpClient()->get(
             'https://id.own3d.tv/api/users', [
-            'headers' => [
-                'Accept' => 'application/json',
-                'Authorization' => 'Bearer ' . $token,
-            ],
-        ]);
+                'headers' => [
+                    'Accept' => 'application/json',
+                    'Authorization' => 'Bearer ' . $token,
+                ],
+            ]);
 
         return json_decode($response->getBody()->getContents(), true);
     }

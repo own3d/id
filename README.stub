@@ -125,7 +125,7 @@ use Own3d\Id\Own3dId;
 
 public function register(): void
 {
-    Own3dId::$skipMigrations = true;
+    Own3dId::ignoreMigrations();
 }
 ```
 

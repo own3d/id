@@ -2,12 +2,11 @@
 
 require __DIR__ . '/../vendor/autoload.php';
 
-use Own3d\Id\Own3dId;
 use Illuminate\Support\Arr;
+use Own3d\Id\Own3dId;
 
 $markdown = collect(class_uses(Own3dId::class))
     ->map(function ($trait) {
-
         $title = str_replace('Trait', '', Arr::last(explode('\\', $trait)));
 
         $methods = [];
@@ -24,10 +23,9 @@ $markdown = collect(class_uses(Own3dId::class))
             ->reject(function (ReflectionMethod $method) {
                 return $method->isConstructor();
             })
-            ->each(function (ReflectionMethod $method) use (&$methods, $title, $trait) {
-
+            ->each(function (ReflectionMethod $method) use (&$methods) {
                 $declaration = collect($method->getModifiers())->map(function (int $modifier) {
-                    return $modifier == ReflectionMethod::IS_PUBLIC ? 'public ' : '';
+                    return ReflectionMethod::IS_PUBLIC == $modifier ? 'public ' : '';
                 })->join(' ');
 
                 $declaration .= 'function ';
@@ -35,7 +33,6 @@ $markdown = collect(class_uses(Own3dId::class))
                 $declaration .= '(';
 
                 $declaration .= collect($method->getParameters())->map(function (ReflectionParameter $parameter) {
-
                     $parameterString = Arr::last(explode('\\', $parameter->getType()->getName()));
                     $parameterString .= ' ';
                     $parameterString .= '$';
@@ -47,7 +44,6 @@ $markdown = collect(class_uses(Own3dId::class))
                     }
 
                     return $parameterString;
-
                 })->join(', ');
 
                 $declaration .= ')';
@@ -58,10 +54,11 @@ $markdown = collect(class_uses(Own3dId::class))
         return [$title, $methods];
     })
     ->map(function ($args) {
-
         list($title, $methods) = $args;
 
-        if(count($methods) <= 0) return null;
+        if (count($methods) <= 0) {
+            return null;
+        }
 
         $markdown = '### ' . $title;
         $markdown .= PHP_EOL . PHP_EOL;

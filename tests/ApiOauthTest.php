@@ -11,7 +11,6 @@ use Own3d\Id\Tests\TestCases\ApiTestCase;
  */
 class ApiOauthTest extends ApiTestCase
 {
-
     public function testGetOauthToken(): void
     {
         $this->registerResult($result = $this->getClient()->retrievingToken('client_credentials', [

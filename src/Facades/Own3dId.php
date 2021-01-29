@@ -2,8 +2,8 @@
 
 namespace Own3d\Id\Facades;
 
-use Own3d\Id\Own3dId as Own3dIdService;
 use Illuminate\Support\Facades\Facade;
+use Own3d\Id\Own3dId as Own3dIdService;
 
 /**
  * @author René Preuß <rene.p@own3d.tv>

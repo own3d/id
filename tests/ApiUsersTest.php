@@ -4,16 +4,13 @@ declare(strict_types=1);
 
 namespace Own3d\Id\Tests;
 
-use Own3d\Id\Enums\Scope;
 use Own3d\Id\Tests\TestCases\ApiTestCase;
-use Illuminate\Support\Str;
 
 /**
  * @author René Preuß <rene.p@own3d.tv>
  */
 class ApiUsersTest extends ApiTestCase
 {
-
     public function testGetAuthedUser(): void
     {
         $this->getClient()->withToken($this->getToken());

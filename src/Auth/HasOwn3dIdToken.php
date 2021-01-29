@@ -6,6 +6,7 @@ use Illuminate\Foundation\Auth\User;
 
 /**
  * @mixin User
+ *
  * @author René Preuß <rene.p@own3d.tv>
  */
 trait HasOwn3dIdToken

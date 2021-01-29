@@ -13,11 +13,12 @@ trait EventsTrait
     use Json;
 
     /**
-     * Returns a event object
+     * Returns a event object.
      *
      * @param string $type
      * @param array $data
      * @param string $version
+     *
      * @return Result Result object
      */
     public function sendEvent(string $type, array $data, string $version): Result

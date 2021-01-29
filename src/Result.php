@@ -9,82 +9,89 @@ use Own3d\Id\Helpers\Paginator;
 use Psr\Http\Message\ResponseInterface;
 use stdClass;
 
-
 /**
  * @author René Preuß <rene.p@own3d.tv>
  */
 class Result
 {
-
     /**
      * Query successfull.
-     * @var boolean
+     *
+     * @var bool
      */
     public $success = false;
 
     /**
      * Guzzle exception, if present.
-     * @var null|mixed
+     *
+     * @var mixed|null
      */
     public $exception = null;
 
     /**
      * Query result data.
+     *
      * @var array
      */
     public $data = [];
 
     /**
      * Total amount of result data.
-     * @var integer
+     *
+     * @var int
      */
     public $total = 0;
 
     /**
      * Status Code.
-     * @var integer
+     *
+     * @var int
      */
     public $status = 0;
 
     /**
      * OWN3D ID response pagination cursor.
-     * @var null|\stdClass
+     *
+     * @var \stdClass|null
      */
     public $pagination;
 
     /**
      * Internal paginator.
-     * @var null|Paginator
+     *
+     * @var Paginator|null
      */
     public $paginator;
 
     /**
      * Original Guzzle HTTP Response.
+     *
      * @var ResponseInterface|null
      */
     public $response;
 
     /**
      * Original OWN3D ID instance.
+     *
      * @var Own3dId
      */
     public $ownedId;
 
     /**
-     * Constructor,
+     * Constructor,.
      *
-     * @param ResponseInterface|null   $response HTTP response
+     * @param ResponseInterface|null $response HTTP response
      * @param Exception|mixed $exception Exception, if present
-     * @param null|Paginator  $paginator Paginator, if present
+     * @param Paginator|null $paginator Paginator, if present
      */
     public function __construct(?ResponseInterface $response, Exception $exception = null, Paginator $paginator = null)
     {
         $this->response = $response;
-        $this->success = $exception === null;
+        $this->success = null === $exception;
         $this->exception = $exception;
         $this->status = $response ? $response->getStatusCode() : 500;
         $jsonResponse = $response ? @json_decode($response->getBody()->getContents(), false) : null;
-        if ($jsonResponse !== null) {
+        if (null !== $jsonResponse) {
             $this->setProperty($jsonResponse, 'data');
             $this->setProperty($jsonResponse, 'total');
             $this->setProperty($jsonResponse, 'pagination');
@@ -95,22 +102,23 @@ class Result
     /**
      * Sets a class attribute by given JSON Response Body.
      *
-     * @param stdClass    $jsonResponse Response Body
-     * @param string      $responseProperty Response property name
+     * @param stdClass $jsonResponse Response Body
+     * @param string $responseProperty Response property name
      * @param string|null $attribute Class property name
      */
     private function setProperty(stdClass $jsonResponse, string $responseProperty, string $attribute = null): void
     {
         $classAttribute = $attribute ?? $responseProperty;
-        if ($jsonResponse !== null && property_exists($jsonResponse, $responseProperty)) {
+        if (null !== $jsonResponse && property_exists($jsonResponse, $responseProperty)) {
             $this->{$classAttribute} = $jsonResponse->{$responseProperty};
-        } elseif ($responseProperty === 'data') {
+        } elseif ('data' === $responseProperty) {
             $this->{$classAttribute} = $jsonResponse;
         }
     }
 
     /**
      * Returns wether the query was successfull.
+     *
      * @return bool Success state
      */
     public function success(): bool
@@ -120,6 +128,7 @@ class Result
 
     /**
      * Get the response data, also available as public attribute.
+     *
      * @return mixed
      */
     public function data()
@@ -129,17 +138,18 @@ class Result
 
     /**
      * Returns the last HTTP or API error.
+     *
      * @return string Error message
      */
     public function error(): string
     {
         // TODO Switch Exception response parsing to this->data
-        if ($this->exception === null || !$this->exception->hasResponse()) {
+        if (null === $this->exception || ! $this->exception->hasResponse()) {
             return 'OWN3D ID API Unavailable';
         }
         $exception = (string) $this->exception->getResponse()->getBody();
         $exception = @json_decode($exception);
-        if (property_exists($exception, 'message') && !empty($exception->message)) {
+        if (property_exists($exception, 'message') && ! empty($exception->message)) {
             return $exception->message;
         }
 
@@ -148,11 +158,12 @@ class Result
 
     /**
      * Shifts the current result (Use for single user/video etc. query).
+     *
      * @return mixed Shifted data
      */
     public function shift()
     {
-        if (!empty($this->data)) {
+        if ( ! empty($this->data)) {
             $data = $this->data;
 
             return array_shift($data);
@@ -163,6 +174,7 @@ class Result
 
     /**
      * Return the current count of items in dataset.
+     *
      * @return int Count
      */
     public function count(): int
@@ -172,29 +184,32 @@ class Result
 
     /**
      * Set the Paginator to fetch the first set of results.
-     * @return null|Paginator
+     *
+     * @return Paginator|null
      */
     public function first(): ?Paginator
     {
-        return $this->paginator !== null ? $this->paginator->first() : null;
+        return null !== $this->paginator ? $this->paginator->first() : null;
     }
 
     /**
      * Set the Paginator to fetch the next set of results.
-     * @return null|Paginator
+     *
+     * @return Paginator|null
      */
     public function next(): ?Paginator
     {
-        return $this->paginator !== null ? $this->paginator->next() : null;
+        return null !== $this->paginator ? $this->paginator->next() : null;
     }
 
     /**
      * Set the Paginator to fetch the last set of results.
-     * @return null|Paginator
+     *
+     * @return Paginator|null
      */
     public function back(): ?Paginator
     {
-        return $this->paginator !== null ? $this->paginator->back() : null;
+        return null !== $this->paginator ? $this->paginator->back() : null;
     }
 
     /**
@@ -206,7 +221,7 @@ class Result
      */
     public function rateLimit(string $key = null)
     {
-        if (!$this->response) {
+        if ( ! $this->response) {
             return null;
         }
         $rateLimit = [
@@ -214,7 +229,7 @@ class Result
             'remaining' => (int) $this->response->getHeaderLine('X-RateLimit-Remaining'),
             'reset' => (int) $this->response->getHeaderLine('Retry-After'),
         ];
-        if ($key === null) {
+        if (null === $key) {
             return $rateLimit;
         }
 
@@ -235,7 +250,7 @@ class Result
         $userIds = collect($data)->map(function ($item) use ($identifierAttribute) {
             return $item->{$identifierAttribute};
         })->toArray();
-        if (count($userIds) === 0) {
+        if (0 === count($userIds)) {
             return $this;
         }
         $users = collect($this->ownedId->getUsersByIds($userIds)->data);

@@ -1,6 +1,5 @@
 <?php
 
-
 namespace Own3d\Id\Console;
 
 use GuzzleHttp\Exception\GuzzleException;
@@ -14,7 +13,8 @@ use Psr\SimpleCache\InvalidArgumentException;
 /**
  * Only intended for first-party apps.
  *
- * @internal This requires trusted oauth client credentials.
+ * @internal this requires trusted oauth client credentials
+ *
  * @author René Preuß <rene.p@own3d.tv>
  */
 class IdTwitchAccessToken extends Command
@@ -37,10 +37,12 @@ class IdTwitchAccessToken extends Command
      * Execute the console command.
      *
      * @param Own3dId $own3dId
-     * @return int
+     *
      * @throws GuzzleException
      * @throws RequestRequiresClientIdException
      * @throws InvalidArgumentException
+     *
+     * @return int
      */
     public function handle(Own3dId $own3dId): int
     {
@@ -51,8 +53,9 @@ class IdTwitchAccessToken extends Command
             ->withToken($repository->getAccessToken())
             ->post('/api/app-access-tokens/twitch');
 
-        if (!$result->success()) {
+        if ( ! $result->success()) {
             $this->error('Token failed to update.');
+
             return 1;
         }
 

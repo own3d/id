@@ -12,7 +12,6 @@ use Own3d\Id\Result;
  */
 abstract class ApiTestCase extends TestCase
 {
-
     protected static $rateLimitRemaining = null;
 
     protected function setUp(): void
@@ -23,10 +22,10 @@ abstract class ApiTestCase extends TestCase
             Own3dId::setBaseUrl($this->getBaseUrl());
         }
 
-        if (!$this->getClientId()) {
+        if ( ! $this->getClientId()) {
             $this->markTestSkipped('No Client-ID given');
         }
-        if (self::$rateLimitRemaining !== null && self::$rateLimitRemaining < 3) {
+        if (null !== self::$rateLimitRemaining && self::$rateLimitRemaining < 3) {
             $this->markTestSkipped('Rate Limit exceeded (' . self::$rateLimitRemaining . ')');
         }
         $this->getClient()->setClientId($this->getClientId());

@@ -13,7 +13,7 @@ trait UsersTrait
     use Get;
 
     /**
-     * Get currently authed user with Bearer Token
+     * Get currently authed user with Bearer Token.
      *
      * @return Result Result object
      */
@@ -33,10 +33,11 @@ trait UsersTrait
     }
 
     /**
-     * Returns a data array
+     * Returns a data array.
      *
      * @param string $platform Platform slug
      * @param string $id Platform user id
+     *
      * @return Result Result object
      */
     public function getUserConnectionByPlatformId(string $platform, string $id): Result

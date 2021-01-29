@@ -10,23 +10,24 @@ use stdClass;
  */
 class Paginator
 {
-
     /**
      * OWN3D ID response pagination cursor.
-     * @var null|stdClass
+     *
+     * @var stdClass|null
      */
     private $pagination;
 
     /**
      * Next desired action (first, after, before).
-     * @var null|string
+     *
+     * @var string|null
      */
     public $action = null;
 
     /**
      * Constructor.
      *
-     * @param null|stdClass $pagination OWN3D ID response pagination cursor
+     * @param stdClass|null $pagination OWN3D ID response pagination cursor
      */
     public function __construct(stdClass $pagination = null)
     {
@@ -36,9 +37,9 @@ class Paginator
     /**
      * Create Paginator from Result object.
      *
-     * @param  Result $result Result object
+     * @param Result $result Result object
      *
-     * @return self   Paginator object
+     * @return self Paginator object
      */
     public static function from(Result $result): self
     {
@@ -47,6 +48,7 @@ class Paginator
 
     /**
      * Return the current active cursor.
+     *
      * @return string OWN3D ID cursor
      */
     public function cursor(): string
@@ -56,6 +58,7 @@ class Paginator
 
     /**
      * Set the Paginator to fetch the next set of results.
+     *
      * @return self
      */
     public function first(): self
@@ -67,6 +70,7 @@ class Paginator
 
     /**
      * Set the Paginator to fetch the first set of results.
+     *
      * @return self
      */
     public function next(): self
@@ -78,6 +82,7 @@ class Paginator
 
     /**
      * Set the Paginator to fetch the last set of results.
+     *
      * @return self
      */
     public function back(): self

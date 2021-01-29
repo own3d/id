@@ -14,11 +14,11 @@ use Illuminate\Foundation\Auth\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
-use RuntimeException;
-use stdClass;
 use function preg_last_error;
 use function preg_match;
+use RuntimeException;
 use function sprintf;
+use stdClass;
 
 /**
  * @author René Preuß <rene.p@own3d.tv>
@@ -35,6 +35,7 @@ class Own3dIdGuard
 
     /**
      * The secrets of the OWN3D ID guard.
+     *
      * @var array
      */
     private static array $extSecrets = [];
@@ -66,16 +67,15 @@ class Own3dIdGuard
 
     /**
      * Adds a secret for the OWN3D ID guard.
+     *
      * @param string $keyPath
      */
     public static function addRsaSecret(string $keyPath): void
     {
         if ($rsaMatch = preg_match(static::RSA_KEY_PATTERN, $keyPath)) {
             static::$extSecrets[] = ['n' => $keyPath, 'alg' => 'RS256'];
-        } elseif ($rsaMatch === false) {
-            throw new RuntimeException(
-                sprintf('PCRE error [%d] encountered during key match attempt', preg_last_error())
-            );
+        } elseif (false === $rsaMatch) {
+            throw new RuntimeException(sprintf('PCRE error [%d] encountered during key match attempt', preg_last_error()));
         }
     }
 
@@ -96,11 +96,11 @@ class Own3dIdGuard
      */
     public function user(Request $request)
     {
-        if (!($token = $request->headers->get('Authorization'))) {
+        if ( ! ($token = $request->headers->get('Authorization'))) {
             return null;
         }
 
-        if (!Str::startsWith($token, 'OAuth')) {
+        if ( ! Str::startsWith($token, 'OAuth')) {
             return null;
         }
 
@@ -111,6 +111,7 @@ class Own3dIdGuard
         try {
             $token = explode(' ', $token)[1] ?? null;
             $decoded = $this->decodeAuthorizationToken($token);
+
             return $this->resolveUser($decoded);
         } catch (Exception $exception) {
             return null;
@@ -140,7 +141,7 @@ class Own3dIdGuard
      */
     public static function register($driver = 'own3d-id'): void
     {
-        self::setRsaKeyLoader(fn() => file_get_contents(__DIR__ . '/../../oauth-public.key'));
+        self::setRsaKeyLoader(fn () => file_get_contents(__DIR__ . '/../../oauth-public.key'));
         Auth::extend($driver, static function ($app, $name, array $config) {
             return new RequestGuard(static function ($request) use ($config) {
                 return (new self(
@@ -152,6 +153,7 @@ class Own3dIdGuard
 
     /**
      * @param stdClass $decoded
+     *
      * @return HasOwn3dIdToken|Builder|Model|object|null
      */
     private function resolveUser(stdClass $decoded)
@@ -161,7 +163,7 @@ class Own3dIdGuard
         /** @var User $user */
         $user = $model::where(['own3d_id' => $decoded->sub])->first();
 
-        if ($user === null) {
+        if (null === $user) {
             return null;
         }
 

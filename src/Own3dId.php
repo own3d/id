@@ -6,12 +6,10 @@ use GuzzleHttp\Client;
 use GuzzleHttp\Exception\GuzzleException;
 use GuzzleHttp\Exception\RequestException;
 use Illuminate\Support\Facades\Route;
-use Own3d\Id\ApiOperations;
 use Own3d\Id\Exceptions\RequestRequiresAuthenticationException;
 use Own3d\Id\Exceptions\RequestRequiresClientIdException;
 use Own3d\Id\Exceptions\RequestRequiresRedirectUriException;
 use Own3d\Id\Helpers\Paginator;
-use Own3d\Id\Traits;
 
 /**
  * @author René Preuß <rene.p@own3d.tv>
@@ -21,7 +19,6 @@ class Own3dId
     use Traits\OauthTrait;
     use Traits\UsersTrait;
     use Traits\EventsTrait;
-
     use ApiOperations\Delete;
     use ApiOperations\Get;
     use ApiOperations\Post;
@@ -30,40 +27,51 @@ class Own3dId
 
     public static string $baseUrl = 'https://id.own3d.tv/api/';
 
+    /**
+     * Indicates if OWN3D ID's migrations will be run.
+     *
+     * @var bool
+     */
     public static bool $skipMigrations = false;
 
     /**
      * Guzzle is used to make http requests.
+     *
      * @var Client
      */
     protected Client $client;
 
     /**
      * Paginator object.
+     *
      * @var Paginator
      */
     protected Paginator $paginator;
 
     /**
      * OWN3D ID OAuth token.
+     *
      * @var string|null
      */
     protected ?string $token = null;
 
     /**
      * OWN3D ID client id.
+     *
      * @var string|null
      */
     protected ?string $clientId = null;
 
     /**
      * OWN3D ID client secret.
+     *
      * @var string|null
      */
     protected ?string $clientSecret = null;
 
     /**
      * OWN3D ID OAuth redirect url.
+     *
      * @var string|null
      */
     protected ?string $redirectUri = null;
@@ -107,9 +115,31 @@ class Own3dId
     }
 
     /**
+     * Determine if OWN3D ID's migrations should be run.
+     *
+     * @return bool
+     */
+    public static function shouldRunMigrations()
+    {
+        return ! static::$skipMigrations;
+    }
+
+    /**
+     * Configure OWN3D ID to not register its migrations.
+     *
+     * @return static
+     */
+    public static function ignoreMigrations()
+    {
+        static::$skipMigrations = true;
+
+        return new static();
+    }
+
+    /**
      * @param string $baseUrl
      *
-     * @internal only for internal and debug purposes.
+     * @internal only for internal and debug purposes
      */
     public static function setBaseUrl(string $baseUrl): void
     {
@@ -118,13 +148,15 @@ class Own3dId
 
     /**
      * Get client id.
-     * @return string
+     *
      * @throws RequestRequiresClientIdException
+     *
+     * @return string
      */
     public function getClientId(): string
     {
-        if (!$this->clientId) {
-            throw new RequestRequiresClientIdException;
+        if ( ! $this->clientId) {
+            throw new RequestRequiresClientIdException();
         }
 
         return $this->clientId;
@@ -145,7 +177,7 @@ class Own3dId
     /**
      * Fluid client id setter.
      *
-     * @param string $clientId OWN3D ID client id.
+     * @param string $clientId OWN3D ID client id
      *
      * @return self
      */
@@ -158,13 +190,15 @@ class Own3dId
 
     /**
      * Get client secret.
-     * @return string
+     *
      * @throws RequestRequiresClientIdException
+     *
+     * @return string
      */
     public function getClientSecret(): string
     {
-        if (!$this->clientSecret) {
-            throw new RequestRequiresClientIdException;
+        if ( ! $this->clientSecret) {
+            throw new RequestRequiresClientIdException();
         }
 
         return $this->clientSecret;
@@ -198,13 +232,15 @@ class Own3dId
 
     /**
      * Get redirect url.
-     * @return string
+     *
      * @throws RequestRequiresRedirectUriException
+     *
+     * @return string
      */
     public function getRedirectUri(): string
     {
-        if (!$this->redirectUri) {
-            throw new RequestRequiresRedirectUriException;
+        if ( ! $this->redirectUri) {
+            throw new RequestRequiresRedirectUriException();
         }
 
         return $this->redirectUri;
@@ -238,14 +274,16 @@ class Own3dId
 
     /**
      * Get OAuth token.
-     * @return string        OWN3D ID token
-     * @return string|null
+     *
      * @throws RequestRequiresAuthenticationException
+     *
+     * @return string OWN3D ID token
+     * @return string|null
      */
     public function getToken(): string
     {
-        if (!$this->token) {
-            throw new RequestRequiresAuthenticationException;
+        if ( ! $this->token) {
+            throw new RequestRequiresAuthenticationException();
         }
 
         return $this->token;
@@ -296,9 +334,10 @@ class Own3dId
      * @param array $parameters
      * @param Paginator|null $paginator
      *
-     * @return Result
      * @throws GuzzleException
      * @throws RequestRequiresClientIdException
+     *
+     * @return Result
      */
     public function get(string $path = '', array $parameters = [], Paginator $paginator = null): Result
     {
@@ -310,9 +349,10 @@ class Own3dId
      * @param array $parameters
      * @param Paginator|null $paginator
      *
-     * @return Result
      * @throws GuzzleException
      * @throws RequestRequiresClientIdException
+     *
+     * @return Result
      */
     public function post(string $path = '', array $parameters = [], Paginator $paginator = null): Result
     {
@@ -324,9 +364,10 @@ class Own3dId
      * @param array $parameters
      * @param Paginator|null $paginator
      *
-     * @return Result
      * @throws GuzzleException
      * @throws RequestRequiresClientIdException
+     *
+     * @return Result
      */
     public function delete(string $path = '', array $parameters = [], Paginator $paginator = null): Result
     {
@@ -338,9 +379,10 @@ class Own3dId
      * @param array $parameters
      * @param Paginator|null $paginator
      *
-     * @return Result
      * @throws GuzzleException
      * @throws RequestRequiresClientIdException
+     *
+     * @return Result
      */
     public function put(string $path = '', array $parameters = [], Paginator $paginator = null): Result
     {
@@ -352,9 +394,10 @@ class Own3dId
      * @param string $path
      * @param array|null $body
      *
-     * @return Result
      * @throws GuzzleException
      * @throws RequestRequiresClientIdException
+     *
+     * @return Result
      */
     public function json(string $method, string $path = '', array $body = null): Result
     {
@@ -370,13 +413,14 @@ class Own3dId
      * @param Paginator $paginator Paginator object
      * @param mixed|null $jsonBody JSON data
      *
-     * @return Result     Result object
      * @throws GuzzleException
      * @throws RequestRequiresClientIdException
+     *
+     * @return Result Result object
      */
     public function query(string $method = 'GET', string $path = '', array $parameters = [], Paginator $paginator = null, $jsonBody = null): Result
     {
-        if ($paginator !== null) {
+        if (null !== $paginator) {
             $parameters[$paginator->action] = $paginator->cursor();
         }
         try {
@@ -405,7 +449,7 @@ class Own3dId
     {
         $parts = [];
         foreach ($query as $name => $value) {
-            $value = (array)$value;
+            $value = (array) $value;
             array_walk_recursive($value, function ($value) use (&$parts, $name) {
                 $parts[] = urlencode($name) . '=' . urlencode($value);
             });
@@ -419,8 +463,9 @@ class Own3dId
      *
      * @param bool $json Body is JSON
      *
-     * @return array
      * @throws RequestRequiresClientIdException
+     *
+     * @return array
      */
     private function buildHeaders(bool $json = false): array
     {
