@@ -62,8 +62,8 @@ class IdTwitchAccessToken extends Command
                 'refresh_token' => $result->data()->refresh_token ?? null,
                 'expires_in' => $result->data()->expires_in,
                 'scope' => $result->data()->scopes,
-                'token_type' => $result->data()->expires_at,
-                'expires_at' => $result->data()->scopes,
+                'token_type' => $result->data()->token_type,
+                'expires_at' => $result->data()->expires_at,
             ]);
 
         $this->info('Token successfully updated.');
