@@ -25,7 +25,7 @@ class Own3dId
     use ApiOperations\Put;
     use ApiOperations\Json;
 
-    public static string $baseUrl = 'https://id.own3d.tv/api/';
+    public static string $baseUrl = 'https://id.stream.tv/api/';
 
     /**
      * Indicates if OWN3D ID's migrations will be run.
