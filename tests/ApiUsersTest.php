@@ -24,8 +24,17 @@ class ApiUsersTest extends ApiTestCase
         $this->getClient()->withToken($this->getToken());
         $this->registerResult($result = $this->getClient()->getUserConnections());
         $this->assertTrue($result->success());
+        $this->assertCount(4, $result->data());
+        $this->assertEquals('twitch', $result->data()[0]->platform);
+    }
+
+    public function testGetUserConnectionByName(): void
+    {
+        $this->getClient()->withToken($this->getToken());
+        $this->registerResult($result = $this->getClient()->getUserConnections(['platform' => 'slack']));
+        $this->assertTrue($result->success());
         $this->assertCount(1, $result->data());
-        $this->assertEquals('discord', $result->data()[0]->platform);
+        $this->assertEquals('slack', $result->shift()->platform);
     }
 
     public function testGetUserConnectionByPlatformId(): void

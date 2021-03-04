@@ -25,11 +25,12 @@ trait UsersTrait
     /**
      * Returns a data array with multiple oauth connections.
      *
+     * @param array $parameters
      * @return Result Result object
      */
-    public function getUserConnections(): Result
+    public function getUserConnections(array $parameters = []): Result
     {
-        return $this->get('linked-social-accounts');
+        return $this->get('linked-social-accounts', $parameters);
     }
 
     /**
