@@ -27,8 +27,14 @@ class CheckClientCredentialsTest extends ApiTestCase
 
         $middleware = new CheckClientCredentials();
 
-        $middleware->handle($request, function ($req) {
-            $this->assertEquals('Title is in Mixed Case', $req->title);
+        $middleware->handle($request, function (Request $request) {
+            $this->assertEquals('Title is in Mixed Case', $request->get('title'));
+
+            self::assertNotEmpty($request->attributes->get('oauth_access_token_id'));
+            self::assertEquals($this->getClientId(), $request->attributes->get('oauth_client_id'));
+            self::assertFalse($request->attributes->get('oauth_client_trusted'));
+            self::assertNotNull($request->attributes->get('oauth_user_id'));
+            self::assertIsArray($request->attributes->get('oauth_scopes'));
         }, Scope::CONNECTIONS);
     }
 
@@ -45,7 +51,7 @@ class CheckClientCredentialsTest extends ApiTestCase
         $middleware = new CheckClientCredentials();
 
         try {
-            $middleware->handle($request, function ($req) {
+            $middleware->handle($request, function (Request $request) {
                 fail('Invalid scopes has been accepted.');
             }, Scope::USER_READ);
         } catch (MissingScopeException $exception) {
@@ -65,8 +71,8 @@ class CheckClientCredentialsTest extends ApiTestCase
 
         $middleware = new CheckClientCredentials();
 
-        $middleware->handle($request, function ($req) {
-            $this->assertEquals('Title is in Mixed Case', $req->title);
+        $middleware->handle($request, function (Request $request) {
+            $this->assertEquals('Title is in Mixed Case', $request->get('title'));
         }, Scope::CONNECTIONS);
     }
 

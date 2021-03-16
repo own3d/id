@@ -41,6 +41,7 @@ class CheckClientCredentials
 
         $request->attributes->set('oauth_access_token_id', $decoded->jti);
         $request->attributes->set('oauth_client_id', $decoded->aud);
+        $request->attributes->set('oauth_client_trusted', $decoded->client->trusted);
         $request->attributes->set('oauth_user_id', $decoded->sub);
         $request->attributes->set('oauth_scopes', $decoded->scopes);
 
