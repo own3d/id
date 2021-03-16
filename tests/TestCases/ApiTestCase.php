@@ -40,17 +40,17 @@ abstract class ApiTestCase extends TestCase
 
     protected function getBaseUrl()
     {
-        return getenv('BASE_URL');
+        return 'http://127.0.0.1:8000' ?? getenv('BASE_URL');
     }
 
     protected function getClientId()
     {
-        return getenv('CLIENT_ID');
+        return '92f55c34-bbd9-40e8-aa2c-22649e500e3f' ?? getenv('CLIENT_ID');
     }
 
     protected function getClientSecret()
     {
-        return getenv('CLIENT_KEY');
+        return 'IKnQj3Os4a4icNUNqKApKBUwMScIHjlu3OIfkqlx' ?? getenv('CLIENT_KEY');
     }
 
     protected function getToken()

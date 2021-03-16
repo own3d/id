@@ -2,11 +2,9 @@
 
 namespace Own3d\Id\Repository;
 
-use GuzzleHttp\Client;
-use GuzzleHttp\Exception\GuzzleException;
 use Illuminate\Support\Facades\Cache;
-use JsonException;
 use Own3d\Id\Exceptions\RequestFreshAccessTokenException;
+use Own3d\Id\Own3dId;
 
 /**
  * Helper class to generate a fresh machine-to-machine access token.
@@ -17,18 +15,18 @@ class AppTokenRepository
 {
     public const ACCESS_TOKEN_CACHE_KEY = 'own3d-id:access_token';
 
-    /**
-     * @var Client
-     */
-    private Client $client;
+    private Own3dId $client;
 
     public function __construct()
     {
-        $this->client = new Client([
-            'base_uri' => 'https://id.stream.tv/',
-        ]);
+        $this->client = app(Own3dId::class);
     }
 
+    /**
+     * @throws RequestFreshAccessTokenException
+     *
+     * @return string
+     */
     public function getAccessToken(): string
     {
         $accessToken = Cache::get(self::ACCESS_TOKEN_CACHE_KEY);
@@ -43,35 +41,26 @@ class AppTokenRepository
     /**
      * @param string $scope
      *
-     * @throws GuzzleException
      * @throws RequestFreshAccessTokenException
-     * @throws JsonException
      *
      * @return mixed
      */
     private function requestFreshAccessToken(string $scope)
     {
-        $response = $this->getClient()->post('oauth/token', [
-            'form_params' => [
-                'grant_type' => 'client_credentials',
-                'client_id' => config('own3d-id.client_id'),
-                'client_secret' => config('own3d-id.client_secret'),
-                'scope' => $scope,
-            ],
+        $result = $this->getClient()->retrievingToken('client_credentials', [
+            'scope' => $scope,
         ]);
 
-        if (200 !== $response->getStatusCode()) {
-            throw RequestFreshAccessTokenException::fromResponse($response);
+        if ( ! $result->success()) {
+            throw RequestFreshAccessTokenException::fromResponse($result->response());
         }
 
-        $response = json_decode((string) $response->getBody(), true, 512, JSON_THROW_ON_ERROR);
+        Cache::put(self::ACCESS_TOKEN_CACHE_KEY, $accessToken = $result->data()->access_token, now()->addWeek());
 
-        Cache::put(self::ACCESS_TOKEN_CACHE_KEY, $response['access_token'], now()->addWeek());
-
-        return $response['access_token'];
+        return $accessToken;
     }
 
-    private function getClient(): Client
+    private function getClient(): Own3dId
     {
         return $this->client;
     }
