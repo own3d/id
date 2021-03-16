@@ -67,7 +67,7 @@ class CheckClientCredentials
      */
     protected function validateScopes(stdClass $token, array $scopes)
     {
-        if (in_array('*', $token->scopes)) {
+        if (empty($scopes) || in_array('*', $token->scopes)) {
             return;
         }
 
