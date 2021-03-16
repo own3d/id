@@ -7,6 +7,7 @@ namespace Own3d\Id\Socialite;
 use Illuminate\Support\Arr;
 use Laravel\Socialite\Two\ProviderInterface;
 use Own3d\Id\Enums\Scope;
+use Own3d\Id\Own3dId;
 use SocialiteProviders\Manager\OAuth2\AbstractProvider;
 use SocialiteProviders\Manager\OAuth2\User;
 
@@ -36,7 +37,7 @@ class Provider extends AbstractProvider implements ProviderInterface
     protected function getAuthUrl($state)
     {
         return $this->buildAuthUrlFromBase(
-            'https://id.stream.tv/oauth/authorize', $state
+            Own3dId::$authBaseUrl . 'authorize', $state
         );
     }
 
@@ -45,7 +46,7 @@ class Provider extends AbstractProvider implements ProviderInterface
      */
     protected function getTokenUrl()
     {
-        return 'https://id.stream.tv/oauth/token';
+        return Own3dId::$authBaseUrl . 'token';
     }
 
     /**
@@ -54,7 +55,7 @@ class Provider extends AbstractProvider implements ProviderInterface
     protected function getUserByToken($token)
     {
         $response = $this->getHttpClient()->get(
-            'https://id.stream.tv/api/users', [
+            Own3dId::$baseUrl . 'users', [
                 'headers' => [
                     'Accept' => 'application/json',
                     'Authorization' => 'Bearer ' . $token,

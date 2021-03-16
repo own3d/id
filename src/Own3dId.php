@@ -25,7 +25,19 @@ class Own3dId
     use ApiOperations\Put;
     use ApiOperations\Json;
 
+    /**
+     * @var string
+     *
+     * @internal only for internal and debug purposes
+     */
     public static string $baseUrl = 'https://id.stream.tv/api/';
+
+    /**
+     * @var string
+     *
+     * @internal only for internal and debug purposes
+     */
+    public static string $authBaseUrl = 'https://id.stream.tv/oauth/';
 
     /**
      * Indicates if OWN3D ID's migrations will be run.
@@ -144,6 +156,16 @@ class Own3dId
     public static function setBaseUrl(string $baseUrl): void
     {
         self::$baseUrl = $baseUrl;
+    }
+
+    /**
+     * @param string $authBaseUrl
+     *
+     * @internal only for internal and debug purposes
+     */
+    public static function setAuthBaseUrl(string $authBaseUrl): void
+    {
+        self::$authBaseUrl = $authBaseUrl;
     }
 
     /**
@@ -334,8 +356,8 @@ class Own3dId
      * @param array $parameters
      * @param Paginator|null $paginator
      *
-     * @throws GuzzleException
      * @throws RequestRequiresClientIdException
+     * @throws GuzzleException
      *
      * @return Result
      */
@@ -349,8 +371,8 @@ class Own3dId
      * @param array $parameters
      * @param Paginator|null $paginator
      *
-     * @throws GuzzleException
      * @throws RequestRequiresClientIdException
+     * @throws GuzzleException
      *
      * @return Result
      */
@@ -364,8 +386,8 @@ class Own3dId
      * @param array $parameters
      * @param Paginator|null $paginator
      *
-     * @throws GuzzleException
      * @throws RequestRequiresClientIdException
+     * @throws GuzzleException
      *
      * @return Result
      */
@@ -379,8 +401,8 @@ class Own3dId
      * @param array $parameters
      * @param Paginator|null $paginator
      *
-     * @throws GuzzleException
      * @throws RequestRequiresClientIdException
+     * @throws GuzzleException
      *
      * @return Result
      */
@@ -394,8 +416,8 @@ class Own3dId
      * @param string $path
      * @param array|null $body
      *
-     * @throws GuzzleException
      * @throws RequestRequiresClientIdException
+     * @throws GuzzleException
      *
      * @return Result
      */
@@ -410,7 +432,7 @@ class Own3dId
      * @param string $method HTTP method
      * @param string $path Query path
      * @param array $parameters Query parameters
-     * @param Paginator $paginator Paginator object
+     * @param Paginator|null $paginator Paginator object
      * @param mixed|null $jsonBody JSON data
      *
      * @throws GuzzleException

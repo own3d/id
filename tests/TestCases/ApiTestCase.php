@@ -19,7 +19,8 @@ abstract class ApiTestCase extends TestCase
         parent::setUp();
 
         if ($this->getBaseUrl()) {
-            Own3dId::setBaseUrl($this->getBaseUrl());
+            Own3dId::setBaseUrl(sprintf('%s/api/', $this->getBaseUrl()));
+            Own3dId::setAuthBaseUrl(sprintf('%s/oauth/', $this->getBaseUrl()));
         }
 
         if ( ! $this->getClientId()) {
@@ -40,17 +41,17 @@ abstract class ApiTestCase extends TestCase
 
     protected function getBaseUrl()
     {
-        return 'http://127.0.0.1:8000' ?? getenv('BASE_URL');
+        return getenv('BASE_URL');
     }
 
     protected function getClientId()
     {
-        return '92f55c34-bbd9-40e8-aa2c-22649e500e3f' ?? getenv('CLIENT_ID');
+        return getenv('CLIENT_ID');
     }
 
     protected function getClientSecret()
     {
-        return 'IKnQj3Os4a4icNUNqKApKBUwMScIHjlu3OIfkqlx' ?? getenv('CLIENT_KEY');
+        return getenv('CLIENT_KEY');
     }
 
     protected function getToken()
