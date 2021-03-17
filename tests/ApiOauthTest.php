@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Own3d\Id\Tests;
 
+use Own3d\Id\Contracts;
+use Own3d\Id\Repository\AppTokenRepository;
 use Own3d\Id\Tests\TestCases\ApiTestCase;
 
 /**
@@ -18,5 +20,12 @@ class ApiOauthTest extends ApiTestCase
         ]));
         $this->assertTrue($result->success());
         $this->assertNotEmpty($result->data()->access_token);
+    }
+
+    public function testAppTokenRepository(): void
+    {
+        $repository = app(Contracts\AppTokenRepository::class);
+
+        self::assertInstanceOf(AppTokenRepository::class, $repository);
     }
 }

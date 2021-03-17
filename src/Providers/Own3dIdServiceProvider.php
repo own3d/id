@@ -4,7 +4,9 @@ namespace Own3d\Id\Providers;
 
 use Illuminate\Support\ServiceProvider;
 use Own3d\Id\Console;
+use Own3d\Id\Contracts;
 use Own3d\Id\Own3dId;
+use Own3d\Id\Repository\AppTokenRepository;
 
 /**
  * @author René Preuß <rene.p@own3d.tv>
@@ -41,6 +43,8 @@ class Own3dIdServiceProvider extends ServiceProvider
         $this->app->singleton(Own3dId::class, function () {
             return new Own3dId();
         });
+
+        $this->app->singleton(Contracts\AppTokenRepository::class, AppTokenRepository::class);
     }
 
     /**

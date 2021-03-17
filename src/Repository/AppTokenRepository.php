@@ -3,6 +3,7 @@
 namespace Own3d\Id\Repository;
 
 use Illuminate\Support\Facades\Cache;
+use Own3d\Id\Contracts\AppTokenRepository as Repository;
 use Own3d\Id\Exceptions\RequestFreshAccessTokenException;
 use Own3d\Id\Own3dId;
 
@@ -11,7 +12,7 @@ use Own3d\Id\Own3dId;
  *
  * @author René Preuß <rene.p@own3d.tv>
  */
-class AppTokenRepository
+class AppTokenRepository implements Repository
 {
     public const ACCESS_TOKEN_CACHE_KEY = 'own3d-id:access_token';
 
@@ -23,9 +24,7 @@ class AppTokenRepository
     }
 
     /**
-     * @throws RequestFreshAccessTokenException
-     *
-     * @return string
+     * {@inheritDoc}
      */
     public function getAccessToken(): string
     {
