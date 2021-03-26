@@ -13,4 +13,5 @@ class Permission
     public const MANAGE_USERS = 1 << 6;
     public const VIEW_ADDRESSES = 1 << 7;
     public const MANAGE_FULFILLMENT = 1 << 8;
+    public const STAFF = 1 << 9;
 }
