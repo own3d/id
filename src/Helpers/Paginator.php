@@ -15,14 +15,14 @@ class Paginator
      *
      * @var stdClass|null
      */
-    private $pagination;
+    private ?stdClass $pagination;
 
     /**
      * Next desired action (first, after, before).
      *
      * @var string|null
      */
-    public $action = null;
+    public ?string $action = null;
 
     /**
      * Constructor.

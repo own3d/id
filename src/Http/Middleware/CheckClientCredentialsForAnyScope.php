@@ -5,7 +5,7 @@ namespace Own3d\Id\Http\Middleware;
 use Own3d\Id\Exceptions\MissingScopeException;
 use stdClass;
 
-class CheckClientCredentials extends CheckCredentials
+class CheckClientCredentialsForAnyScope extends CheckCredentials
 {
     /**
      * Validate token credentials.
@@ -24,9 +24,11 @@ class CheckClientCredentials extends CheckCredentials
         }
 
         foreach ($scopes as $scope) {
-            if (!in_array($scope, $token->scopes)) {
-                throw new MissingScopeException($scopes);
+            if (in_array($scope, $token->scopes)) {
+                return;
             }
         }
+
+        throw new MissingScopeException($scopes);
     }
 }

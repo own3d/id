@@ -12,7 +12,7 @@ class MissingScopeException extends AuthorizationException
      *
      * @var array
      */
-    protected $scopes;
+    protected array $scopes;
 
     /**
      * Create a new missing scope exception.
