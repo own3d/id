@@ -75,7 +75,7 @@ class Result
      *
      * @var Own3dId
      */
-    public $ownedId;
+    public $own3dId;
 
     /**
      * Constructor,.
@@ -253,7 +253,7 @@ class Result
         if (0 === count($userIds)) {
             return $this;
         }
-        $users = collect($this->ownedId->getUsersByIds($userIds)->data);
+        $users = collect($this->own3dId->getUsersByIds($userIds)->data);
         $dataWithUsers = collect($data)->map(function ($item) use ($users, $identifierAttribute, $insertTo) {
             $item->$insertTo = $users->where('id', $item->{$identifierAttribute})->first();
 

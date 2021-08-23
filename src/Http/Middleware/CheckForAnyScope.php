@@ -22,12 +22,12 @@ class CheckForAnyScope
      */
     public function handle($request, $next, ...$scopes)
     {
-        if (! $request->user() || ! $request->user()->bitinflowToken()) {
+        if (! $request->user() || ! $request->user()->own3dToken()) {
             throw new AuthenticationException;
         }
 
         foreach ($scopes as $scope) {
-            if ($request->user()->bitinflowTokenCan($scope)) {
+            if ($request->user()->own3dTokenCan($scope)) {
                 return $next($request);
             }
         }

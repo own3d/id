@@ -36,7 +36,7 @@ trait OauthTrait
             $result = new Result($exception->getResponse(), $exception);
         }
 
-        $result->bitinflow = $this;
+        $result->own3dId = $this;
 
         return $result;
     }

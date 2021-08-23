@@ -455,7 +455,7 @@ class Own3dId
         } catch (RequestException $exception) {
             $result = new Result($exception->getResponse(), $exception, $paginator);
         }
-        $result->ownedId = $this;
+        $result->own3dId = $this;
 
         return $result;
     }
