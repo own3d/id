@@ -44,7 +44,7 @@ class Own3dId
      *
      * @var bool
      */
-    public static bool $skipMigrations = false;
+    public static bool $skipMigrations = true;
 
     /**
      * Guzzle is used to make http requests.
@@ -115,7 +115,7 @@ class Own3dId
      *
      * @param array $options
      */
-    public static function routes($options = []): void
+    public static function routes(array $options = []): void
     {
         Route::middleware($options['middleware'] ?? 'web')
             ->namespace('\Own3d\Id\Http\Controllers')
@@ -131,7 +131,7 @@ class Own3dId
      *
      * @return bool
      */
-    public static function shouldRunMigrations()
+    public static function shouldRunMigrations(): bool
     {
         return ! static::$skipMigrations;
     }
@@ -141,7 +141,19 @@ class Own3dId
      *
      * @return static
      */
-    public static function ignoreMigrations()
+    public static function ignoreMigrations(): self
+    {
+        static::$skipMigrations = true;
+
+        return new static();
+    }
+
+    /**
+     * Configure OWN3D ID to register its migrations.
+     *
+     * @return static
+     */
+    public static function registerMigrations(): self
     {
         static::$skipMigrations = true;
 
@@ -447,7 +459,7 @@ class Own3dId
         }
         try {
             $response = $this->client->request($method, $path, [
-                'headers' => $this->buildHeaders($jsonBody ? true : false),
+                'headers' => $this->buildHeaders((bool)$jsonBody),
                 'query' => $this->buildQuery($parameters),
                 'json' => $jsonBody ?: null,
             ]);

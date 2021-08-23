@@ -5,6 +5,9 @@ namespace Own3d\Id\Http\Middleware;
 use Own3d\Id\Exceptions\MissingScopeException;
 use stdClass;
 
+/**
+ * @author René Preuß <rene.p@own3d.tv>
+ */
 class CheckClientCredentials extends CheckCredentials
 {
     /**

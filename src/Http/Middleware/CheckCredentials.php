@@ -9,6 +9,9 @@ use Illuminate\Auth\AuthenticationException;
 use Illuminate\Http\Request;
 use stdClass;
 
+/**
+ * @author René Preuß <rene.p@own3d.tv>
+ */
 abstract class CheckCredentials
 {
     /**

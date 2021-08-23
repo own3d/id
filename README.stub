@@ -5,7 +5,7 @@ PHP OWN3D ID API Client for Laravel 5+
 ## Table of contents
 
 1. [Installation](#installation)
-2. [Event Listener](#event-listener)
+2. [Socialite Event Listener](#socialite-event-listener)
 3. [Configuration](#configuration)
 4. [Examples](#examples)
 5. [Documentation](#documentation)
@@ -19,7 +19,7 @@ Install the own3d id package with composer:
 composer require own3d/id
 ```
 
-## Event Listener
+## Socialite Event Listener
 
 - Add `SocialiteProviders\Manager\SocialiteWasCalled` event to your `listen[]` array in `app/Providers/EventServiceProvider`.
 - Add your listeners (i.e. the ones from the providers) to the `SocialiteProviders\Manager\SocialiteWasCalled[]` that you just created.
@@ -118,14 +118,14 @@ Route::get('/home', 'HomeController@index')->name('home');
 
 ## Disable OWN3D ID Migrations
 
-If you don't want to use the own3d-migrations for you project, you may disable it in the `AppServiceProvider`.
+If you want to use the own3d-migrations for you project, you may enable it within the `AppServiceProvider`.
 
 ```php
 use Own3d\Id\Own3dId;
 
 public function register(): void
 {
-    Own3dId::ignoreMigrations();
+    Own3dId::registerMigrations();
 }
 ```
 

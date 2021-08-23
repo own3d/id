@@ -8,6 +8,9 @@ use Illuminate\Auth\AuthenticationException;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 
+/**
+ * @author René Preuß <rene.p@own3d.tv>
+ */
 class CheckScopes
 {
     /**

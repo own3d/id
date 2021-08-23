@@ -4,6 +4,9 @@ namespace Own3d\Id\Traits;
 
 use stdClass;
 
+/**
+ * @author René Preuß <rene.p@own3d.tv>
+ */
 trait HasOwn3dTokens
 {
     /**
