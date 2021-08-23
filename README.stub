@@ -116,7 +116,7 @@ Own3dId::routes();
 Route::get('/home', 'HomeController@index')->name('home');
 ```
 
-## Disable OWN3D ID Migrations
+## Enable OWN3D ID Migrations
 
 If you want to use the own3d-migrations for you project, you may enable it within the `AppServiceProvider`.
 

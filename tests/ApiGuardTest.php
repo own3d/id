@@ -16,7 +16,7 @@ class ApiGuardTest extends TestCase
 {
     public function testOwn3dIdGuard(): void
     {
-        Own3dIdGuard::setRsaKeyLoader(fn () => file_get_contents(__DIR__ . '/../oauth-public.key'));
+        Own3dIdGuard::addRsaKeyLoader(fn () => [file_get_contents(__DIR__ . '/../oauth-public.key')]);
 
         $guard = new Own3dIdGuard(Auth::createUserProvider('users'));
 

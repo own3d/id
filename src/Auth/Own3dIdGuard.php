@@ -2,7 +2,6 @@
 
 namespace Own3d\Id\Auth;
 
-use Closure;
 use Exception;
 use Firebase\JWT\JWT;
 use Firebase\JWT\SignatureInvalidException;
@@ -14,11 +13,11 @@ use Illuminate\Foundation\Auth\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
+use RuntimeException;
+use stdClass;
 use function preg_last_error;
 use function preg_match;
-use RuntimeException;
 use function sprintf;
-use stdClass;
 
 /**
  * @author René Preuß <rene.p@own3d.tv>
@@ -41,9 +40,9 @@ class Own3dIdGuard
     private static array $extSecrets = [];
 
     /**
-     * @var Closure
+     * @var callable[]
      */
-    private static Closure $rsaKeyLoader;
+    private static array $rsaKeyLoaders = [];
 
     /**
      * Create a new authentication guard.
@@ -68,25 +67,32 @@ class Own3dIdGuard
     /**
      * Adds a secret for the OWN3D ID guard.
      *
-     * @param string $keyPath
+     * @param string $key
+     * @param string $alg
      */
-    public static function addRsaSecret(string $keyPath): void
+    public static function addRsaSecret(string $key, string $alg = 'RS256'): void
     {
-        if ($rsaMatch = preg_match(static::RSA_KEY_PATTERN, $keyPath)) {
-            static::$extSecrets[] = ['n' => $keyPath, 'alg' => 'RS256'];
+        if ($rsaMatch = preg_match(static::RSA_KEY_PATTERN, $key)) {
+            static::$extSecrets[] = ['n' => $key, 'alg' => $alg];
         } elseif (false === $rsaMatch) {
             throw new RuntimeException(sprintf('PCRE error [%d] encountered during key match attempt', preg_last_error()));
         }
     }
 
-    public static function setRsaKeyLoader(Closure $rsaKeyLoader): void
+    public static function addRsaKeyLoader(callable $rsaKeyLoader): void
     {
-        self::$rsaKeyLoader = $rsaKeyLoader;
+        self::$rsaKeyLoaders[] = $rsaKeyLoader;
     }
 
-    private static function callRsaKeyLoader(): string
+    private static function callRsaKeyLoaders(): void
     {
-        return (self::$rsaKeyLoader)();
+        foreach (self::$rsaKeyLoaders as $rsaKeyLoader) {
+            /** @var string[] $rsaSecrets */
+            $rsaSecrets = ($rsaKeyLoader)();
+            foreach ($rsaSecrets as $rsaSecret) {
+                self::addRsaSecret($rsaSecret);
+            }
+        }
     }
 
     /**
@@ -96,16 +102,16 @@ class Own3dIdGuard
      */
     public function user(Request $request)
     {
-        if ( ! ($token = $request->headers->get('Authorization'))) {
+        if (!($token = $request->headers->get('Authorization'))) {
             return null;
         }
 
-        if ( ! Str::startsWith($token, 'OAuth')) {
+        if (!Str::startsWith($token, 'OAuth')) {
             return null;
         }
 
         if (empty(static::$extSecrets)) {
-            self::addRsaSecret(self::callRsaKeyLoader());
+            self::callRsaKeyLoaders();
         }
 
         try {
@@ -137,11 +143,10 @@ class Own3dIdGuard
      * Add this to your AuthServiceProvider::boot() method.
      *
      * @param string $driver
-     * @noinspection PhpUnusedParameterInspection
      */
-    public static function register($driver = 'own3d-id'): void
+    public static function register(string $driver = 'own3d-id'): void
     {
-        self::setRsaKeyLoader(fn () => file_get_contents(__DIR__ . '/../../oauth-public.key'));
+        self::addRsaKeyLoader(fn() => [file_get_contents(__DIR__ . '/../../oauth-public.key')]);
         Auth::extend($driver, static function ($app, $name, array $config) {
             return new RequestGuard(static function ($request) use ($config) {
                 return (new self(
