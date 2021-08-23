@@ -134,7 +134,7 @@ public function register(): void
 #### Basic
 
 ```php
-$own3dId = new Own3d\Id\OwnedId();
+$own3dId = new Own3d\Id\Own3dId();
 
 $own3dId->setClientId('abc123');
 
@@ -198,7 +198,7 @@ public function retrievingToken(string $grantType, array $attributes)
 
 ```php
 public function getAuthedUser()
-public function getUserConnections()
+public function getUserConnections(array $parameters = [])
 public function getUserConnectionByPlatformId(string $platform, string $id)
 ```
 
