@@ -5,11 +5,12 @@ PHP OWN3D ID API Client for Laravel 5+
 ## Table of contents
 
 1. [Installation](#installation)
-2. [Socialite Event Listener](#socialite-event-listener)
-3. [Configuration](#configuration)
-4. [Examples](#examples)
-5. [Documentation](#documentation)
-6. [Development](#Development)
+2. [Remarks](#remarks)
+3. [Socialite Event Listener](#socialite-event-listener)
+4. [Configuration](#configuration)
+5. [Examples](#examples)
+6. [Documentation](#documentation)
+7. [Development](#Development)
 
 ## Installation
 
@@ -18,6 +19,10 @@ Install the own3d id package with composer:
 ```
 composer require own3d/id
 ```
+
+## Remarks
+
+In the StreamTV / OWN3D ID Library all SSO IDs are defined as strings. This comes from the origin that all IDs should become UUIDs. We will simply continue the id assignment on big-integers, since we never implemented this step. We recommend to store all ids as big-integers (20) in your database. It is not guaranteed that we will assign IDs incrementally.
 
 ## Socialite Event Listener
 

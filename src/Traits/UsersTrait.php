@@ -23,6 +23,18 @@ trait UsersTrait
     }
 
     /**
+     * Get user by ID.
+     *
+     * @param string $id Platform user id
+     *
+     * @return Result Result object
+     */
+    public function getUserById(string $id): Result
+    {
+        return $this->get(sprintf('users/%s', $id));
+    }
+
+    /**
      * Returns a data array with multiple oauth connections.
      *
      * @param array $parameters
