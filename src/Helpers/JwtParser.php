@@ -34,6 +34,6 @@ class JwtParser
 
     private function getOauthPublicKey()
     {
-        return file_get_contents(__DIR__ . '/../../../../oauth-public.key');
+        return file_get_contents(__DIR__ . '/../../oauth-public.key');
     }
 }
