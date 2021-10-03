@@ -195,7 +195,7 @@ Own3dId::withClientId('abc123')->withToken('abcdef123456')->getAuthedUser();
 
 <!-- GENERATED-DOCS -->
 
-[**OAuth Scopes Enums**](https://bitbucket.org/own3dtv/own3d-id/src/master/src/Enums/Scope.php)
+[**OAuth Scopes Enums**](src/Enums/Scope.php)
 
 
 ### Protecting Routes
