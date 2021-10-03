@@ -197,6 +197,154 @@ Own3dId::withClientId('abc123')->withToken('abcdef123456')->getAuthedUser();
 
 [**OAuth Scopes Enums**](https://bitbucket.org/own3dtv/own3d-id/src/master/src/Enums/Scope.php)
 
+
+### Protecting Routes
+
+#### Via Middleware
+
+OWN3D ID includes an [authentication guard](https://laravel.com/docs/8.x/authentication#adding-custom-guards) that will validate access tokens on incoming requests. Once you have configured the `api` guard to use the `own3d-id` driver, you only need to specify the `auth:api` middleware on any routes that should require a valid access token:
+
+```php
+Route::get('/user', function () {
+    //
+})->middleware('auth:api');
+```
+
+#### Multiple Authentication Guards
+
+If your application authenticates different types of users that perhaps use entirely different Eloquent models, you will likely need to define a guard configuration for each user provider type in your application. This allows you to protect requests intended for specific user providers. For example, given the following guard configuration the `config/auth.php` configuration file:
+
+```php
+'api' => [
+    'driver' => 'own3d-id',
+    'provider' => 'users',
+],
+
+'api-customers' => [
+    'driver' => 'own3d-id',
+    'provider' => 'customers',
+],
+```
+
+The following route will utilize the api-customers guard, which uses the customers user provider, to authenticate incoming requests:
+
+```php
+Route::get('/customer', function () {
+    //
+})->middleware('auth:api-customers');
+```
+
+### Token Scopes
+
+Scopes allow your application's users to limit the actions a third-party application can perform on their behalf. For example, not all API consumers will need the ability to fetch entitlements.
+
+#### Defining Scopes
+
+[Scopes](src/Enums/Scope.php) are registered globally by the OWN3D ID service. If a OWN3D first-party specific application needs a additional scope, then they need to define it in the OWN3D ID service.
+
+#### Assigning Scopes To Tokens
+
+When requesting an access token using the authorization code grant, consumers should specify their desired scopes as the `scope` query string parameter. The `scope` parameter should be a space-delimited list of scopes:
+
+```php
+Route::get('/redirect', function () {
+    $query = http_build_query([
+        'client_id' => 'client-id',
+        'redirect_uri' => 'http://example.com/callback',
+        'response_type' => 'code',
+        'scope' => 'user:read connections',
+    ]);
+
+    return redirect('https://id.stream.tv/oauth/authorize?' . $query);
+});
+```
+
+#### Requesting all Tokens
+
+When using the password grant or client credentials grant, you may wish to authorize the token for all of the scopes supported by your application. You can do this by requesting the `*` scope. If you request the `*` scope, the `can` method on the token instance will always return `true`. This scope may only be assigned to a token that is issued using the `password` or `client_credentials` grant:
+
+```php
+TBD
+```
+
+### Checking Scopes
+
+> Using the `scopes` and `scope` middleware requires a authorization guard. For first-party apps, you may want to use a special [authentication guard](aultiple-authentication-guards) to create users dynamically.
+> If you're interested in machine-to-machine authentication or want to skip the authorization guard, then have a look at [client credentials grant tokens](#client-credentials-grant-tokens).
+
+OWN3D ID includes two middleware that may be used to verify that an incoming request is authenticated with a token that has been granted a given scope. To get started, add the following middleware to the `$routeMiddleware` property of your `app/Http/Kernel.php` file:
+
+```php
+'scopes' => \Own3d\Id\Http\Middleware\CheckScopes::class,
+'scope' => \Own3d\Id\Http\Middleware\CheckForAnyScope::class,
+```
+
+#### Check For All Scopes
+
+The `scopes` middleware may be assigned to a route to verify that the incoming request's access token has all of the listed scopes:
+
+```php
+Route::get('/test', function () {
+    // Access token has both "user:read" and "connections" scopes...
+})->middleware(['auth:api', 'user:read,connections']);
+```
+
+#### Check For Any Scopes
+
+The `scope` middleware may be assigned to a route to verify that the incoming request's access token has at least one of the listed scopes:
+
+```php
+Route::get('/test', function () {
+    // Access token has either "user:read" or "connections" scope...
+})->middleware(['auth:api', 'scope:user:read,connections'])
+```
+
+#### Checking Scopes On A Token Instance
+
+Once an access token authenticated request has entered your application, you may still check if the token has a given scope using the `tokenCan` method on the authenticated `App\Models\User` instance:
+
+```php
+use Illuminate\Http\Request;
+
+Route::get('/orders', function (Request $request) {
+    if ($request->user()->tokenCan('user:read')) {
+        //
+    }
+});
+```
+
+### Client Credentials Grant Tokens
+
+The client credentials grant is suitable for machine-to-machine authentication. For example, to performing maintenance tasks over an API.
+
+Before your application can issue tokens via the client credentials grant, you will need to request a client credentials grant client. You may do this by writing to developers@stream.tv.
+
+Next, to use this grant type, you need to add the `CheckClientCredentials` middleware to the `$routeMiddleware` property of your `app/Http/Kernel.php` file:
+
+```php
+use Own3d\Id\Http\Middleware\CheckClientCredentials;
+
+protected $routeMiddleware = [
+    'client' => CheckClientCredentials::class,
+];
+```
+
+Then, attach the middleware to a route:
+
+```php
+Route::get('/test', function (Request $request) {
+    ...
+})->middleware('client');
+```
+
+To restrict access to the route to specific scopes, you may provide a comma-delimited list of the required scopes when attaching the `client` middleware to the route:
+
+```php
+Route::get('/test', function (Request $request) {
+    ...
+})->middleware('client:user:read,your-scope');
+```
+
 ## Development
 
 #### Run Tests
