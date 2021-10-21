@@ -54,6 +54,16 @@ abstract class ApiTestCase extends TestCase
         return getenv('CLIENT_KEY');
     }
 
+    protected function getTrustedClientId()
+    {
+        return getenv('TRUSTED_CLIENT_ID');
+    }
+
+    protected function getTrustedClientSecret()
+    {
+        return getenv('TRUSTED_CLIENT_KEY');
+    }
+
     protected function getToken()
     {
         return getenv('CLIENT_ACCESS_TOKEN');
