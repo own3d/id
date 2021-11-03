@@ -106,7 +106,7 @@ class Own3dIdGuard
             return null;
         }
 
-        if (!Str::startsWith($token, 'OAuth')) {
+        if (!Str::startsWith($token, config('own3d-id.token_type'))) {
             return null;
         }
 
@@ -166,7 +166,7 @@ class Own3dIdGuard
         // todo create own user provider soon for this class and socialite controller
         $model = config('own3d-id.model');
         /** @var User $user */
-        $user = $model::where(['own3d_id' => $decoded->sub])->first();
+        $user = $model::where([config('own3d-id.model_key') => $decoded->sub])->first();
 
         if (null === $user) {
             return null;
