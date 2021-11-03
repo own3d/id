@@ -6,4 +6,5 @@ return [
     'redirect_url' => env('OWN3D_ID_REDIRECT_URI', ''),
     'base_url' => env('OWN3D_ID_BASE_URI', ''),
     'model' => env('OWN3D_ID_MODEL', \App\Models\User::class),
+    'model_key' => env('OWN3D_ID_MODEL_KEY', 'own3d-id'),
 ];
