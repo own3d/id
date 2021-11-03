@@ -106,7 +106,7 @@ class Own3dIdGuard
             return null;
         }
 
-        if (!Str::startsWith($token, 'OAuth')) {
+        if (!Str::startsWith($token, config('own3d-id.token_type'))) {
             return null;
         }
 
