@@ -13,10 +13,14 @@ class Scope
     const ALERTS_MANAGE = 'alerts:manage';
 
     /**
+     * Manage a user's affiliate configuration.
+     */
+    const AFFILIATE_MANAGE = 'affiliate:manage';
+
+    /**
      * View a user's analytics data.
      */
     const ANALYTICS_READ = 'analytics:read';
-
 
     /**
      * View a user's chatbot configurations.
@@ -54,9 +58,34 @@ class Scope
     const CONNECTIONS = 'connections';
 
     /**
+     * View a user's donations.
+     */
+    const DONATIONS_READ = 'donations:read';
+
+    /**
+     * Manage a user's donations.
+     */
+    const DONATIONS_MANAGE = 'donations:manage';
+
+    /**
      * View a user's entitlements aka. purchased products.
      */
     const ENTITLEMENTS_READ = 'entitlements:read';
+
+    /**
+     * View a user's OWN3D extensions.
+     */
+    const EXTENSIONS_READ = 'extensions:read';
+
+    /**
+     * Manage a user's OWN3D extensions (eg. change configurations).
+     */
+    const EXTENSIONS_MANAGE = 'extensions:manage';
+
+    /**
+     * Manage a user's linkspree.
+     */
+    const LINKSPREE_MANAGE = 'linkspree:manage';
 
     /**
      * View a user's OWN3D & OWN3D Pro orders.
