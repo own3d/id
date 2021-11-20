@@ -145,6 +145,7 @@ public function retrievingToken(string $grantType, array $attributes)
 
 ```php
 public function getAuthedUser()
+public function setAuthedUserEmailAddress(string $email)
 public function getUserById(string $id)
 public function getUserConnections(array $parameters = array ())
 public function getUserConnectionByPlatformId(string $platform, string $id)
