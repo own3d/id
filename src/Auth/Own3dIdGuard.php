@@ -164,8 +164,9 @@ class Own3dIdGuard
     private function resolveUser(stdClass $decoded)
     {
         // todo create own user provider soon for this class and socialite controller
+        $model = config('own3d-id.model');
         /** @var User $user */
-        $user = $this->userProvider->retrieveById($decoded->sub);
+        $user = $model::where([config('own3d-id.model_key') => $decoded->sub])->first();
 
         if (null === $user) {
             return null;
