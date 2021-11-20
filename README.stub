@@ -76,64 +76,6 @@ You will need to add an entry to the services configuration file so that after c
 ],
 ```
 
-## Using Own3d ID ad Primary Login Service
-
-1. Migrate the database
-2. Update user model
-3. Update web routes
-
-```php
-use Own3d\Id\Traits\Own3dIdUser;
-
-class User {
-    use Own3dIdUser;
-
-    /**
-     * The attributes that should be cast to native types.
-     *
-     * @var array
-     */
-    protected $casts = [
-        'email_verified_at' => 'datetime',
-        'own3d_user' => 'array',
-        'own3d_id' => 'int'
-    ];
-}
-```
-
-```php
-use Own3d\Id\Own3dId;
-
-/*
-|--------------------------------------------------------------------------
-| Web Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider within a group which
-| contains the "web" middleware group. Now create something great!
-|
-*/
-
-Own3dId::routes();
-
-// route 'home' is required
-Route::get('/home', 'HomeController@index')->name('home');
-```
-
-## Enable OWN3D ID Migrations
-
-If you want to use the own3d-migrations for you project, you may enable it within the `AppServiceProvider`.
-
-```php
-use Own3d\Id\Own3dId;
-
-public function register(): void
-{
-    Own3dId::registerMigrations();
-}
-```
-
 ## Examples
 
 #### Basic
@@ -343,6 +285,50 @@ To restrict access to the route to specific scopes, you may provide a comma-deli
 Route::get('/test', function (Request $request) {
     ...
 })->middleware('client:user:read,your-scope');
+```
+
+### Using OWN3D ID as API Guard
+
+If you want to accept OWN3D ID Access tokens within you API Server, you can easily add/modify your guards, to enable support.
+If you also want to generate users automatically in your local database, then use the `sso-users` provider within your `api` guard.
+
+`config/auth.php`:
+
+```php
+'guards' => [
+    ...
+
+    'api' => [
+        'driver' => 'own3d-id',
+        'provider' => 'sso-users',
+    ],
+],
+
+'providers' => [
+    ...
+
+    'sso-users' => [
+        'driver' => 'sso-users',
+        'model' => App\Models\User::class,
+        'fields' => ['name', 'email', 'email_verified_at'],
+    ],
+],
+```
+
+After configure your guards, you need to register the `own3d-id` and `sso-users` drivers within your `AuthServiceProvider`.
+
+```php
+use Illuminate\Http\Request;
+use Own3d\Id\Auth\Own3dSsoUserProvider;
+use Own3d\Id\Own3dId;
+
+public function boot()
+{
+    ...
+
+    Own3dIdGuard::register();
+    Own3dSsoUserProvider::register();
+}
 ```
 
 ## Development
