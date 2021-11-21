@@ -174,6 +174,10 @@ class Own3dIdGuard
         if (method_exists($user, 'withOwn3dIdToken')) {
             $user = $user->withOwn3dIdToken($decoded);
         }
+        
+        if (method_exists($user, 'withOwn3dAccessToken')) {
+            $user = $user->withOwn3dAccessToken($decoded);
+        }
 
         return $user;
     }
