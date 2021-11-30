@@ -50,15 +50,12 @@ class Own3dSsoUserProvider implements UserProvider
         );
     }
 
-    /**
-     * @param mixed $identifier
-     *
-     * @return Authenticatable|null
-     */
-    public function retrieveById($identifier)
+    public function retrieveById($identifier): ?Authenticatable
     {
+        /** @var Authenticatable|Model $model */
         $model = $this->createModel();
 
+        /** @var Authenticatable|null $user */
         $user = $this->newModelQuery($model)
             ->where($model->getAuthIdentifierName(), $identifier)
             ->first();
@@ -110,7 +107,7 @@ class Own3dSsoUserProvider implements UserProvider
      *
      * @return Builder
      */
-    protected function newModelQuery($model = null): Builder
+    protected function newModelQuery(Model $model = null): Builder
     {
         return is_null($model)
             ? $this->createModel()->newQuery()
@@ -132,7 +129,7 @@ class Own3dSsoUserProvider implements UserProvider
         return null;
     }
 
-    public function validateCredentials(Authenticatable $user, array $credentials)
+    public function validateCredentials(Authenticatable $user, array $credentials): bool
     {
         return false;
     }

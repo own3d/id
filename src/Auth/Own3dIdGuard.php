@@ -7,17 +7,13 @@ use Firebase\JWT\JWT;
 use Firebase\JWT\SignatureInvalidException;
 use Illuminate\Auth\RequestGuard;
 use Illuminate\Contracts\Auth\UserProvider;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Foundation\Auth\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
 use RuntimeException;
 use stdClass;
-use function preg_last_error;
-use function preg_match;
-use function sprintf;
 
 /**
  * @author René Preuß <rene.p@own3d.tv>
@@ -95,12 +91,7 @@ class Own3dIdGuard
         }
     }
 
-    /**
-     * @param Request $request
-     *
-     * @return mixed
-     */
-    public function user(Request $request)
+    public function user(Request $request): ?User
     {
         if (!($token = $request->headers->get('Authorization'))) {
             return null;
@@ -120,6 +111,8 @@ class Own3dIdGuard
 
             return $this->resolveUser($decoded);
         } catch (Exception $exception) {
+            Log::critical($exception->getMessage(), ['exception' => $exception]);
+
             return null;
         }
     }
@@ -156,12 +149,7 @@ class Own3dIdGuard
         });
     }
 
-    /**
-     * @param stdClass $decoded
-     *
-     * @return HasOwn3dIdToken|Builder|Model|object|null
-     */
-    private function resolveUser(stdClass $decoded)
+    private function resolveUser(stdClass $decoded): ?User
     {
         // todo create own user provider soon for this class and socialite controller
         /** @var User $user */
@@ -174,7 +162,7 @@ class Own3dIdGuard
         if (method_exists($user, 'withOwn3dIdToken')) {
             $user = $user->withOwn3dIdToken($decoded);
         }
-        
+
         if (method_exists($user, 'withOwn3dAccessToken')) {
             $user = $user->withOwn3dAccessToken($decoded);
         }
