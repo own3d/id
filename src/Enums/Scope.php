@@ -8,6 +8,16 @@ namespace Own3d\Id\Enums;
 class Scope
 {
     /**
+     * View a user's academic information.
+     */
+    const ACADEMY_READ = 'academy:read';
+
+    /**
+     * Manage a user's academic information.
+     */
+    const ACADEMY_MANAGE = 'academy:manage';
+
+    /**
      * Manage a user's OWN3D Pro & Free Alerts Extension alerts.
      */
     const ALERTS_MANAGE = 'alerts:manage';
