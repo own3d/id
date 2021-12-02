@@ -2,7 +2,9 @@
 
 namespace Own3d\Id\Traits;
 
+use GuzzleHttp\Exception\GuzzleException;
 use Own3d\Id\ApiOperations\Get;
+use Own3d\Id\Exceptions\RequestRequiresClientIdException;
 use Own3d\Id\Result;
 
 /**
@@ -15,7 +17,8 @@ trait UsersTrait
     /**
      * Get currently authed user with Bearer Token.
      *
-     * @return Result Result object
+     * @throws GuzzleException
+     * @throws RequestRequiresClientIdException
      */
     public function getAuthedUser(): Result
     {
@@ -25,9 +28,8 @@ trait UsersTrait
     /**
      * Get user by ID.
      *
-     * @param string $id Platform user id
-     *
-     * @return Result Result object
+     * @throws GuzzleException
+     * @throws RequestRequiresClientIdException
      */
     public function getUserById(string $id): Result
     {
@@ -35,10 +37,25 @@ trait UsersTrait
     }
 
     /**
+     * Returns a data array. Users may use the same email.
+     *
+     * This endpoint is only available for trusted first-party clients.
+     *
+     * @throws GuzzleException
+     * @throws RequestRequiresClientIdException
+     */
+    public function getUsersByEmail(string $email): Result
+    {
+        return $this->post('users/lookup', [
+            'email' => $email,
+        ]);
+    }
+
+    /**
      * Returns a data array with multiple oauth connections.
      *
-     * @param array $parameters
-     * @return Result Result object
+     * @throws GuzzleException
+     * @throws RequestRequiresClientIdException
      */
     public function getUserConnections(array $parameters = []): Result
     {
@@ -48,10 +65,10 @@ trait UsersTrait
     /**
      * Returns a data array.
      *
-     * @param string $platform Platform slug
-     * @param string $id Platform user id
+     * You can find a list of all supported platforms in the Platform enums class.
      *
-     * @return Result Result object
+     * @throws GuzzleException
+     * @throws RequestRequiresClientIdException
      */
     public function getUserConnectionByPlatformId(string $platform, string $id): Result
     {

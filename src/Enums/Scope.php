@@ -10,125 +10,125 @@ class Scope
     /**
      * View a user's academic information.
      */
-    const ACADEMY_READ = 'academy:read';
+    public const ACADEMY_READ = 'academy:read';
 
     /**
      * Manage a user's academic information.
      */
-    const ACADEMY_MANAGE = 'academy:manage';
+    public const ACADEMY_MANAGE = 'academy:manage';
 
     /**
      * Manage a user's OWN3D Pro & Free Alerts Extension alerts.
      */
-    const ALERTS_MANAGE = 'alerts:manage';
+    public const ALERTS_MANAGE = 'alerts:manage';
 
     /**
      * Manage a user's affiliate configuration.
      */
-    const AFFILIATE_MANAGE = 'affiliate:manage';
+    public const AFFILIATE_MANAGE = 'affiliate:manage';
 
     /**
      * View a user's analytics data.
      */
-    const ANALYTICS_READ = 'analytics:read';
+    public const ANALYTICS_READ = 'analytics:read';
 
     /**
      * View a user's chatbot configurations.
      */
-    const CHATBOT_READ = 'chatbot:read';
+    public const CHATBOT_READ = 'chatbot:read';
 
     /**
      * Manage a user's chatbot configuration, like commands, moderation, timers, giveaways.
      */
-    const CHATBOT_MANAGE = 'chatbot:manage';
+    public const CHATBOT_MANAGE = 'chatbot:manage';
 
     /**
      * Manage a user's chatbot commands configuration.
      */
-    const CHATBOT_MANAGE_COMMANDS = 'chatbot:manage:commands';
+    public const CHATBOT_MANAGE_COMMANDS = 'chatbot:manage:commands';
 
     /**
      * Manage a user's chatbot moderation configuration.
      */
-    const CHATBOT_MANAGE_MODERATION = 'chatbot:manage:moderation';
+    public const CHATBOT_MANAGE_MODERATION = 'chatbot:manage:moderation';
 
     /**
      * Manage a user's chatbot timers configuration.
      */
-    const CHATBOT_MANAGE_TIMERS = 'chatbot:manage:timers';
+    public const CHATBOT_MANAGE_TIMERS = 'chatbot:manage:timers';
 
     /**
      * Manage a user's chatbot giveaways configuration.
      */
-    const CHATBOT_MANAGE_GIVEAWAYS = 'chatbot:manage:giveaways';
+    public const CHATBOT_MANAGE_GIVEAWAYS = 'chatbot:manage:giveaways';
 
     /**
      * View a user's connected social accounts, like twitch, discord, etc.
      */
-    const CONNECTIONS = 'connections';
+    public const CONNECTIONS = 'connections';
 
     /**
      * View a user's donations.
      */
-    const DONATIONS_READ = 'donations:read';
+    public const DONATIONS_READ = 'donations:read';
 
     /**
      * Manage a user's donations.
      */
-    const DONATIONS_MANAGE = 'donations:manage';
+    public const DONATIONS_MANAGE = 'donations:manage';
 
     /**
      * View a user's entitlements aka. purchased products.
      */
-    const ENTITLEMENTS_READ = 'entitlements:read';
+    public const ENTITLEMENTS_READ = 'entitlements:read';
 
     /**
      * View a user's OWN3D extensions.
      */
-    const EXTENSIONS_READ = 'extensions:read';
+    public const EXTENSIONS_READ = 'extensions:read';
 
     /**
      * Manage a user's OWN3D extensions (eg. change configurations).
      */
-    const EXTENSIONS_MANAGE = 'extensions:manage';
+    public const EXTENSIONS_MANAGE = 'extensions:manage';
 
     /**
      * Manage a user's linkspree.
      */
-    const LINKSPREE_MANAGE = 'linkspree:manage';
+    public const LINKSPREE_MANAGE = 'linkspree:manage';
 
     /**
      * View a user's OWN3D & OWN3D Pro orders.
      */
-    const ORDERS_READ = 'orders:read';
+    public const ORDERS_READ = 'orders:read';
 
     /**
      * Manage a user's OWN3D & OWN3D Pro orders, like refund.
      */
-    const ORDERS_MANAGE = 'orders:manage';
+    public const ORDERS_MANAGE = 'orders:manage';
 
     /**
      * View a user's OWN3D Pro subscription.
      */
-    const SUBSCRIPTION_READ = 'subscription:read';
+    public const SUBSCRIPTION_READ = 'subscription:read';
 
     /**
      * 	View a user's information.
      */
-    const USER_READ = 'user:read';
+    public const USER_READ = 'user:read';
 
     /**
      * Manage a user's information, like name.
      */
-    const USER_MANAGE = 'user:manage';
+    public const USER_MANAGE = 'user:manage';
 
     /**
      * Manage a user's credentials, like email, password or even connections.
      */
-    const USER_MANAGE_CREDENTIALS = 'user:manage:credentials';
+    public const USER_MANAGE_CREDENTIALS = 'user:manage:credentials';
 
     /**
      * Manage a user's OWN3D Pro widgets.
      */
-    const WIDGETS_MANAGE = 'widgets:manage';
+    public const WIDGETS_MANAGE = 'widgets:manage';
 }
