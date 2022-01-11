@@ -19,46 +19,47 @@ class Own3dSsoUserProvider implements UserProvider
     private Own3dId $own3dId;
     private array $fields;
     private ?string $accessTokenField;
+    private $newUserCallback;
 
     public function __construct(
         Own3dId $own3dId,
         Request $request,
         string $model,
         array $fields,
-        ?string $accessTokenField = null
+        ?string $accessTokenField = null,
+        callable $newUserCallback = null
     ) {
         $this->accessTokenField = $accessTokenField;
         $this->fields = $fields;
         $this->own3dId = $own3dId;
         $this->request = $request;
         $this->model = $model;
+        $this->newUserCallback = $newUserCallback;
     }
 
-    public static function register()
+    public static function register(callable $newUserCallback = null)
     {
         Auth::provider(
             'sso-users',
-            function ($app, array $config) {
+            function ($app, array $config) use ($newUserCallback) {
                 return new Own3dSsoUserProvider(
                     $app->make(Own3dId::class),
                     $app->make(Request::class),
                     $config['model'],
                     $config['fields'] ?? [],
-                    $config['access_token_field'] ?? null
+                    $config['access_token_field'] ?? null,
+                    $newUserCallback
                 );
             }
         );
     }
 
-    /**
-     * @param mixed $identifier
-     *
-     * @return Authenticatable|null
-     */
-    public function retrieveById($identifier)
+    public function retrieveById($identifier): ?Authenticatable
     {
+        /** @var Authenticatable|Model $model */
         $model = $this->createModel();
 
+        /** @var Authenticatable|null $user */
         $user = $this->newModelQuery($model)
             ->where($model->getAuthIdentifierName(), $identifier)
             ->first();
@@ -82,6 +83,10 @@ class Own3dSsoUserProvider implements UserProvider
 
         if ($this->accessTokenField) {
             $attributes[$this->accessTokenField] = $token;
+        }
+
+        if ($this->newUserCallback) {
+            ($this->newUserCallback)($attributes);
         }
 
         $user = $this->newModelQuery($model)->create($attributes);
@@ -110,7 +115,7 @@ class Own3dSsoUserProvider implements UserProvider
      *
      * @return Builder
      */
-    protected function newModelQuery($model = null): Builder
+    protected function newModelQuery(Model $model = null): Builder
     {
         return is_null($model)
             ? $this->createModel()->newQuery()
@@ -132,7 +137,7 @@ class Own3dSsoUserProvider implements UserProvider
         return null;
     }
 
-    public function validateCredentials(Authenticatable $user, array $credentials)
+    public function validateCredentials(Authenticatable $user, array $credentials): bool
     {
         return false;
     }
