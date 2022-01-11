@@ -22,7 +22,22 @@ trait UsersTrait
      */
     public function getAuthedUser(): Result
     {
-        return $this->get('users');
+        return $this->get('users/@me');
+    }
+
+    /**
+     * Update a users email address, this will also trigger the email verification process via e-mail.
+     * If the email is the same, it will only trigger the email verification process.
+     *
+     * Email Verification Rules: required, email:rfc,dns
+     *
+     * @return Result Result object
+     */
+    public function setAuthedUserEmailAddress(string $email): Result
+    {
+        return $this->post('users/@me/update-email', [
+            'email' => $email,
+        ]);
     }
 
     /**

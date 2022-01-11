@@ -24,6 +24,14 @@ composer require own3d/id
 
 In the StreamTV / OWN3D ID Library all SSO IDs are defined as strings. This comes from the origin that all IDs should become UUIDs. We will simply continue the id assignment on big-integers, since we never implemented this step. We recommend to store all ids as big-integers (20) in your database. It is not guaranteed that we will assign IDs incrementally.
 
+### E-Mail Verification
+
+Every oauth client needs to check itself if they need a (verified) email address from the user.
+The current email address can be fetched via `/api/users/@me`, it will be returned in the `email` attribute.
+To see if the email is verified by the user, you can lookup the `email_verified_at` attribute.
+If the `email` attribute is `null`, this means the user has no email associated with his account.
+You need to call `/api/users/@me/update-email` by yourself to assign and trigger the email verification process.
+
 ## Socialite Event Listener
 
 - Add `SocialiteProviders\Manager\SocialiteWasCalled` event to your `listen[]` array in `app/Providers/EventServiceProvider`.
@@ -145,6 +153,7 @@ public function retrievingToken(string $grantType, array $attributes)
 
 ```php
 public function getAuthedUser()
+public function setAuthedUserEmailAddress(string $email)
 public function getUserById(string $id)
 public function getUserConnections(array $parameters = array ())
 public function getUserConnectionByPlatformId(string $platform, string $id)
