@@ -55,7 +55,10 @@ class CheckClientCredentialsTest extends ApiTestCase
                 fail('Invalid scopes has been accepted.');
             }, Scope::USER_READ);
         } catch (MissingScopeException $exception) {
-            self::assertEquals('Invalid scope(s) provided.', $exception->getMessage());
+            self::assertEquals(
+                'Invalid scope(s) provided. (Missing Scopes: [user:read], Provided Scopes: [connections], Condition: all)',
+                $exception->getMessage()
+            );
         }
     }
 

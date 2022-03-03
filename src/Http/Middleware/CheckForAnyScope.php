@@ -35,6 +35,11 @@ class CheckForAnyScope
             }
         }
 
-        throw new MissingScopeException($scopes);
+        throw new MissingScopeException(
+            $scopes,
+            'Invalid scope(s) provided.',
+            $request->user()->own3dTokenScopes(),
+            MissingScopeException::CONDITION_ANY
+        );
     }
 }

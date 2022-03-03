@@ -28,7 +28,12 @@ class CheckClientCredentials extends CheckCredentials
 
         foreach ($scopes as $scope) {
             if (!in_array($scope, $token->scopes)) {
-                throw new MissingScopeException($scopes);
+                throw new MissingScopeException(
+                    $scopes,
+                    'Invalid scope(s) provided.',
+                    $token->scopes,
+                    MissingScopeException::CONDITION_ALL
+                );
             }
         }
     }

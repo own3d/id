@@ -32,6 +32,11 @@ class CheckClientCredentialsForAnyScope extends CheckCredentials
             }
         }
 
-        throw new MissingScopeException($scopes);
+        throw new MissingScopeException(
+            $scopes,
+            'Invalid scope(s) provided.',
+            $token->scopes,
+            MissingScopeException::CONDITION_ANY
+        );
     }
 }
