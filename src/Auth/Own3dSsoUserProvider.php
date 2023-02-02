@@ -10,6 +10,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Auth;
+use Own3d\Id\Events\PreRegistered;
 use Own3d\Id\Own3dId;
 
 class Own3dSsoUserProvider implements UserProvider
@@ -37,18 +38,17 @@ class Own3dSsoUserProvider implements UserProvider
         $this->newUserCallback = $newUserCallback;
     }
 
-    public static function register(callable $newUserCallback = null)
+    public static function register()
     {
         Auth::provider(
             'sso-users',
-            function ($app, array $config) use ($newUserCallback) {
+            function ($app, array $config) {
                 return new Own3dSsoUserProvider(
                     $app->make(Own3dId::class),
                     $app->make(Request::class),
                     $config['model'],
                     $config['fields'] ?? [],
-                    $config['access_token_field'] ?? null,
-                    $newUserCallback
+                    $config['access_token_field'] ?? null
                 );
             }
         );
@@ -85,9 +85,7 @@ class Own3dSsoUserProvider implements UserProvider
             $attributes[$this->accessTokenField] = $token;
         }
 
-        if ($this->newUserCallback) {
-            ($this->newUserCallback)($attributes);
-        }
+        event(new PreRegistered($attributes));
 
         $user = $this->newModelQuery($model)->create($attributes);
 
