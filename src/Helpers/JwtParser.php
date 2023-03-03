@@ -3,6 +3,7 @@
 namespace Own3d\Id\Helpers;
 
 use Firebase\JWT\JWT;
+use Firebase\JWT\Key;
 use Illuminate\Auth\AuthenticationException;
 use Illuminate\Http\Request;
 use stdClass;
@@ -24,8 +25,7 @@ class JwtParser
         try {
             return JWT::decode(
                 $request->bearerToken(),
-                $this->getOauthPublicKey(),
-                self::ALLOWED_ALGORITHMS
+                new Key($this->getOauthPublicKey(), 'RS256'),
             );
         } catch (Throwable $exception) {
             throw (new AuthenticationException());

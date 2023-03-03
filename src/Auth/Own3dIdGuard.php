@@ -4,6 +4,7 @@ namespace Own3d\Id\Auth;
 
 use Exception;
 use Firebase\JWT\JWT;
+use Firebase\JWT\Key;
 use Firebase\JWT\SignatureInvalidException;
 use Illuminate\Auth\RequestGuard;
 use Illuminate\Contracts\Auth\UserProvider;
@@ -121,7 +122,7 @@ class Own3dIdGuard
     {
         foreach (self::$extSecrets as $extSecret) {
             try {
-                return JWT::decode($token, $extSecret['n'], [$extSecret['alg']]);
+                return JWT::decode($token, new Key($extSecret['n'], $extSecret['alg']));
             } catch (SignatureInvalidException $exception) {
                 // do nothing
             }
