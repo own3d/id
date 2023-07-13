@@ -5,6 +5,7 @@ PHP OWN3D ID API Client for Laravel 5+
 ## Table of contents
 
 1. [Installation](#installation)
+1. [OAuth2 Documentation](#oauth2-documentation)
 2. [Remarks](#remarks)
 3. [Socialite Event Listener](#socialite-event-listener)
 4. [Configuration](#configuration)
@@ -19,6 +20,11 @@ Install the own3d id package with composer:
 ```
 composer require own3d/id
 ```
+
+## OAuth2 Documentation
+
+You can find the documentation for OAuth2 [here](https://dev.own3d.tv/docs/authorization.html). There you can find all
+the information about registering your application and the scopes you can request.
 
 ## Remarks
 
@@ -155,7 +161,8 @@ public function retrievingToken(string $grantType, array $attributes)
 public function getAuthedUser()
 public function setAuthedUserEmailAddress(string $email)
 public function getUserById(string $id)
-public function getUserConnections(array $parameters = array ())
+public function getUsersByEmail(string $email)
+public function getUserConnections(array $parameters = [])
 public function getUserConnectionByPlatformId(string $platform, string $id)
 ```
 
