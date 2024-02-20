@@ -113,8 +113,6 @@ class Own3dIdGuard
 
             return $this->resolveUser($decoded);
         } catch (Exception $exception) {
-            Log::critical($exception->getMessage(), ['exception' => $exception]);
-
             return null;
         }
     }
