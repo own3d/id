@@ -20,17 +20,17 @@ class Platform
 
     public const YOUTUBE = 'youtube';
 
-    // public const FACEBOOK = 'facebook';
+    public const FACEBOOK = 'facebook';
 
-    // public const INSTAGRAM = 'instagram';
+    public const INSTAGRAM = 'instagram';
 
-    // public const KICK = 'kick';
+    public const KICK = 'kick';
 
-    // public const TIKTOK = 'tiktok';
+    public const TIKTOK = 'tiktok';
 
-    // public const TROVO = 'trovo';
+    public const TROVO = 'trovo';
 
-    // public const TWITTER = 'twitter';
+    public const TWITTER = 'twitter';
 
     /**
      * Returns an array with all supported platforms.
