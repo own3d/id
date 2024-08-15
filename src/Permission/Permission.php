@@ -22,6 +22,12 @@ class Permission
     public const MARKETING = 1 << 10;
     public const SUPPORT = 1 << 11;
 
+    // community programs
+    public const TEST_PILOT = 1 << 12;
+    public const PARTNER = 1 << 13;
+    public const DEVELOPER = 1 << 14;
+    public const AMBASSADOR = 1 << 15;
+
     // aliases
     public const MANAGER = self::ADMINISTRATOR;
     public const SHOP_ADMIN = self::MANAGE_SHOP;
