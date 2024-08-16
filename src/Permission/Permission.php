@@ -27,6 +27,7 @@ class Permission
     public const PARTNER = 1 << 13;
     public const DEVELOPER = 1 << 14;
     public const AMBASSADOR = 1 << 15;
+    public const DEMO_USER = 1 << 16;
 
     // aliases
     public const MANAGER = self::ADMINISTRATOR;
