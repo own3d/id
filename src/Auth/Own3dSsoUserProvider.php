@@ -61,7 +61,7 @@ class Own3dSsoUserProvider implements UserProvider
 
         /** @var Authenticatable|null $user */
         $user = $this->newModelQuery($model)
-            ->where($model->getAuthIdentifierName(), $identifier)
+            ->where($model->getAuthIdentifierName(), (string)$identifier)
             ->first();
 
         if ($user) {
