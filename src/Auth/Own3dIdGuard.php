@@ -153,7 +153,7 @@ class Own3dIdGuard
     {
         // todo create own user provider soon for this class and socialite controller
         /** @var User $user */
-        $user = $this->userProvider->retrieveById($decoded->sub);
+        $user = $this->userProvider->retrieveById((string)$decoded->sub);
 
         if (null === $user) {
             return null;
