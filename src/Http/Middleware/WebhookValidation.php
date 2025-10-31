@@ -66,7 +66,7 @@ class WebhookValidation
      */
     private function isValidSignature($payload, $timestamp, $receivedSignature) {
         $data = $timestamp . json_encode($payload);
-        $calculatedSignature = hash_hmac('sha256', $data, config('own3d-id.client_secret'));
+        $calculatedSignature = hash_hmac('sha256', $data, config('own3d-id.webhook_shared_secret'));
         return hash_equals($calculatedSignature, $receivedSignature);
     }
 }
