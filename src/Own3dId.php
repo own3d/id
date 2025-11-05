@@ -5,6 +5,7 @@ namespace Own3d\Id;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\GuzzleException;
 use GuzzleHttp\Exception\RequestException;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Route;
 use Own3d\Id\Exceptions\RequestRequiresAuthenticationException;
 use Own3d\Id\Exceptions\RequestRequiresClientIdException;
@@ -45,6 +46,11 @@ class Own3dId
      * @var bool
      */
     public static bool $skipMigrations = true;
+
+    /**
+     * User model class name.
+     */
+    public static string $userModel = '\App\Models\User';
 
     /**
      * Guzzle is used to make http requests.
@@ -178,6 +184,22 @@ class Own3dId
     public static function setAuthBaseUrl(string $authBaseUrl): void
     {
         self::$authBaseUrl = $authBaseUrl;
+    }
+
+    /**
+     * Set the user model class name.
+     */
+    public static function useUserModel(string $userModel): void
+    {
+        static::$userModel = $userModel;
+    }
+
+    /**
+     * Get a new user model instance.
+     */
+    public static function user(): Model
+    {
+        return new static::$userModel;
     }
 
     /**

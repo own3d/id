@@ -4,6 +4,7 @@ namespace Own3d\Id\Http\Controllers\Auth;
 
 use Carbon\CarbonInterface;
 use Illuminate\Auth\Events\Registered;
+use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Contracts\Auth\StatefulGuard;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Foundation\Auth\User;
@@ -15,6 +16,7 @@ use Illuminate\Support\Facades\Auth;
 use Laravel\Socialite\Facades\Socialite;
 use Laravel\Socialite\Two\User as UserSocial;
 use Own3d\Id\Http\Controllers\Controller;
+use Own3d\Id\Own3dId;
 use Own3d\Id\Socialite\Provider;
 
 /**
@@ -29,11 +31,10 @@ class SocialiteController extends Controller
 
     public function callback()
     {
-        $model = config('own3d-id.model');
         $issuedAt = now();
         $userSocial = Socialite::driver(Provider::IDENTIFIER)->stateless()->user();
         /** @var User $user */
-        $user = $model::where(['own3d_id' => $userSocial->getId()])->first();
+        $user = Own3dId::user()->where(['own3d_id' => $userSocial->getId()])->first();
 
         $attributes = [
             'name' => $userSocial->getName(),
@@ -43,7 +44,8 @@ class SocialiteController extends Controller
         ];
 
         if ( ! $user) {
-            $user = $model::query()->forceCreate($attributes);
+            /** @var Authenticatable $user */
+            $user = Own3dId::user()->query()->forceCreate($attributes);
             event(new Registered($user));
         } else {
             $user->forceFill($attributes)->save();

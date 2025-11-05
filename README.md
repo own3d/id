@@ -258,22 +258,26 @@ OWN3D ID includes two middleware that may be used to verify that an incoming req
 
 #### Check For All Scopes
 
-The `scopes` middleware may be assigned to a route to verify that the incoming request's access token has all of the listed scopes:
+The `Own3d\Id\Http\Middleware\CheckToken` middleware may be assigned to a route to verify that the incoming request's access token has all of the listed scopes:
 
 ```php
+use Own3d\Id\Http\Middleware\CheckToken;
+
 Route::get('/test', function () {
     // Access token has both "user:read" and "connections" scopes...
-})->middleware(['auth:api', 'user:read,connections']);
+})->middleware(['auth:api', CheckToken::using('user:read', 'connections')]);
 ```
 
 #### Check For Any Scopes
 
-The `scope` middleware may be assigned to a route to verify that the incoming request's access token has at least one of the listed scopes:
+The `Own3d\Id\Http\Middleware\CheckTokenForAnyScope` middleware may be assigned to a route to verify that the incoming request's access token has at least one of the listed scopes:
 
 ```php
+use Own3d\Id\Http\Middleware\CheckTokenForAnyScope;
+
 Route::get('/test', function () {
     // Access token has either "user:read" or "connections" scope...
-})->middleware(['auth:api', 'scope:user:read,connections'])
+})->middleware(['auth:api', CheckTokenForAnyScope::using('scope:user:read', 'connections')])
 ```
 
 #### Checking Scopes On A Token Instance
@@ -290,39 +294,30 @@ Route::get('/orders', function (Request $request) {
 });
 ```
 
-### Client Credentials Grant Tokens
-
-The client credentials grant is suitable for machine-to-machine authentication. For example, to performing maintenance tasks over an API.
-
-Before your application can issue tokens via the client credentials grant, you will need to request a client credentials grant client. You may do this by writing to developers@stream.tv.
-
-Next, to use this grant type, you need to add the `CheckClientCredentials` middleware to the `$routeMiddleware` property of your `app/Http/Kernel.php` file:
+### Using OWN3D JWT as API Guard (New)
 
 ```php
-use Own3d\Id\Http\Middleware\CheckClientCredentials;
-
-protected $routeMiddleware = [
-    'client' => CheckClientCredentials::class,
-];
+/**
+ * Bootstrap any application services.
+ */
+public function boot(): void
+{
+    Auth::viaRequest('jwt', function ($request) {
+        return app(JwtRequestGuard::class)->authenticate($request);
+    });
+}
 ```
 
-Then, attach the middleware to a route:
+`config/auth.php`:
 
 ```php
-Route::get('/test', function (Request $request) {
-    ...
-})->middleware('client');
+'api' => [
+    'driver' => 'jwt',
+    'provider' => 'users',
+],
 ```
 
-To restrict access to the route to specific scopes, you may provide a comma-delimited list of the required scopes when attaching the `client` middleware to the route:
-
-```php
-Route::get('/test', function (Request $request) {
-    ...
-})->middleware('client:user:read,your-scope');
-```
-
-### Using OWN3D ID as API Guard
+### Using OWN3D ID as API Guard (Deprecated)
 
 If you want to accept OWN3D ID Access tokens within you API Server, you can easily add/modify your guards, to enable support.
 If you also want to generate users automatically in your local database, then use the `sso-users` provider within your `api` guard.
