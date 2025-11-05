@@ -131,4 +131,14 @@ class Scope
      * Manage a user's OWN3D Pro widgets.
      */
     public const WIDGETS_MANAGE = 'widgets:manage';
+
+    /**
+     * Use MCP server
+     */
+    public const MCP_USE = 'mcp:use';
+
+    /**
+     * Manage a user's codespace
+     */
+    public const CODESPACES_USE = 'codespaces:manage';
 }
