@@ -10,11 +10,9 @@ use Firebase\JWT\JWK;
 use Firebase\JWT\JWT;
 use Firebase\JWT\SignatureInvalidException;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Http;
-use Own3d\Id\Own3dId;
 use RuntimeException;
 use UnexpectedValueException;
 
@@ -45,20 +43,6 @@ trait DecodesJwtTokens
             $request->attributes->set('jwt.header', $header);
             $request->attributes->set('jwt.claims', $claims);
             $request->attributes->set('jwt.sub', $claims->sub ?? null);
-
-            if ($claims->sub) {
-                $user = Own3dId::user()->query()->whereKey($claims->sub)->firstOr(['*'], function () use ($claims) {
-                    return Own3dId::user()->query()->create([
-                        'id' => $claims->sub,
-                    ]);
-                });
-
-                // Set user on the api guard
-                Auth::guard('api')->setUser($user);
-
-                // Optionally, still set the user resolver for request
-                $request->setUserResolver(fn() => $user);
-            }
 
             return new static($claims);
         } catch (ExpiredException $e) {

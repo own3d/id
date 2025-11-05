@@ -5,6 +5,7 @@ namespace Own3d\Id\Auth;
 use Exception;
 use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Own3d\Id\Own3dId;
 
 /**
@@ -35,6 +36,12 @@ class JwtRequestGuard
                 'id' => $accessToken->claims->sub,
             ]);
         });
+
+        // Set user on the api guard
+        Auth::guard('api')->setUser($user);
+
+        // Optionally, still set the user resolver for request
+        $request->setUserResolver(fn() => $user);
 
         return $user->withAccessToken($accessToken);
     }
