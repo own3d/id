@@ -36,21 +36,9 @@ trait DecodesJwtTokens
             }
 
             // Configure leeway for exp/nbf/iat
-            JWT::$leeway = (int)Config::get('jwt.leeway', 60);
+            JWT::$leeway = (int)Config::get('own3d-id.leeway', 60);
 
             [$header, $claims] = self::decodeAndVerify($jwt);
-
-            // iss check
-            $expectedIss = rtrim((string)Config::get('jwt.issuer', ''), '/');
-            if (($claims->iss ?? null) !== $expectedIss) {
-                throw new AuthenticationException('Invalid issuer.');
-            }
-
-            // aud check
-            $allowedAud = (array)Config::get('jwt.audience', []);
-            if (!self::audMatch($claims->aud ?? null, $allowedAud)) {
-                throw new AuthenticationException('Invalid audience.');
-            }
 
             // Stash for downstream
             $request->attributes->set('jwt.token', $jwt);
@@ -101,7 +89,7 @@ trait DecodesJwtTokens
         }
 
         // Enforce allowed algorithms
-        $allowedAlgs = (array)Config::get('jwt.allowed_algs', []);
+        $allowedAlgs = (array)Config::get('own3d-id.allowed_algs', []);
         if (!in_array($header->alg, $allowedAlgs, true)) {
             throw new UnexpectedValueException('Disallowed alg: ' . $header->alg);
         }
@@ -131,12 +119,12 @@ trait DecodesJwtTokens
 
     private static function getJwks(): array
     {
-        $jwksUri = (string)Config::get('jwt.jwks_uri');
+        $jwksUri = (string)Config::get('own3d-id.jwks_uri');
         if (!$jwksUri) {
             throw new RuntimeException('JWKS URI not configured.');
         }
 
-        $ttl = (int)Config::get('jwt.jwks_ttl', 600);
+        $ttl = (int)Config::get('own3d-id.jwks_ttl', 600);
         $cacheKey = 'jwt:jwks:' . md5($jwksUri);
 
         return Cache::remember($cacheKey, $ttl, function () use ($jwksUri) {
