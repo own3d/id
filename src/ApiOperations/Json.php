@@ -9,5 +9,5 @@ use Own3d\Id\Result;
  */
 trait Json
 {
-    abstract public function json(string $method, string $path = '', array $body = null): Result;
+    abstract public function json(string $method, string $path = '', ?array $body = null): Result;
 }

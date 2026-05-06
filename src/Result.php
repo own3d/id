@@ -84,7 +84,7 @@ class Result
      * @param Exception|mixed $exception Exception, if present
      * @param Paginator|null $paginator Paginator, if present
      */
-    public function __construct(?ResponseInterface $response, Exception $exception = null, Paginator $paginator = null)
+    public function __construct(?ResponseInterface $response, ?Exception $exception = null, ?Paginator $paginator = null)
     {
         $this->response = $response;
         $this->success = null === $exception;
@@ -106,7 +106,7 @@ class Result
      * @param string $responseProperty Response property name
      * @param string|null $attribute Class property name
      */
-    private function setProperty(stdClass $jsonResponse, string $responseProperty, string $attribute = null): void
+    private function setProperty(stdClass $jsonResponse, string $responseProperty, ?string $attribute = null): void
     {
         $classAttribute = $attribute ?? $responseProperty;
         if (null !== $jsonResponse && property_exists($jsonResponse, $responseProperty)) {
@@ -219,7 +219,7 @@ class Result
      *
      * @return string|array|null
      */
-    public function rateLimit(string $key = null)
+    public function rateLimit(?string $key = null)
     {
         if ( ! $this->response) {
             return null;

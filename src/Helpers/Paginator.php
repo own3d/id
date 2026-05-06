@@ -29,7 +29,7 @@ class Paginator
      *
      * @param stdClass|null $pagination OWN3D ID response pagination cursor
      */
-    public function __construct(stdClass $pagination = null)
+    public function __construct(?stdClass $pagination = null)
     {
         $this->pagination = $pagination;
     }

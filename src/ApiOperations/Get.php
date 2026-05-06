@@ -10,5 +10,5 @@ use Own3d\Id\Result;
  */
 trait Get
 {
-    abstract public function get(string $path = '', array $parameters = [], Paginator $paginator = null): Result;
+    abstract public function get(string $path = '', array $parameters = [], ?Paginator $paginator = null): Result;
 }

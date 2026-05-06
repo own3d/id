@@ -28,7 +28,7 @@ class Own3dSsoUserProvider implements UserProvider
         string $model,
         array $fields,
         ?string $accessTokenField = null,
-        callable $newUserCallback = null
+        callable|null $newUserCallback = null
     ) {
         $this->accessTokenField = $accessTokenField;
         $this->fields = $fields;
@@ -113,7 +113,7 @@ class Own3dSsoUserProvider implements UserProvider
      *
      * @return Builder
      */
-    protected function newModelQuery(Model $model = null): Builder
+    protected function newModelQuery(?Model $model = null): Builder
     {
         return is_null($model)
             ? $this->createModel()->newQuery()

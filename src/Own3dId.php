@@ -395,7 +395,7 @@ class Own3dId
      *
      * @return Result
      */
-    public function get(string $path = '', array $parameters = [], Paginator $paginator = null): Result
+    public function get(string $path = '', array $parameters = [], ?Paginator $paginator = null): Result
     {
         return $this->query('GET', $path, $parameters, $paginator);
     }
@@ -410,7 +410,7 @@ class Own3dId
      *
      * @return Result
      */
-    public function post(string $path = '', array $parameters = [], Paginator $paginator = null): Result
+    public function post(string $path = '', array $parameters = [], ?Paginator $paginator = null): Result
     {
         return $this->query('POST', $path, $parameters, $paginator);
     }
@@ -425,7 +425,7 @@ class Own3dId
      *
      * @return Result
      */
-    public function delete(string $path = '', array $parameters = [], Paginator $paginator = null): Result
+    public function delete(string $path = '', array $parameters = [], ?Paginator $paginator = null): Result
     {
         return $this->query('DELETE', $path, $parameters, $paginator);
     }
@@ -440,7 +440,7 @@ class Own3dId
      *
      * @return Result
      */
-    public function put(string $path = '', array $parameters = [], Paginator $paginator = null): Result
+    public function put(string $path = '', array $parameters = [], ?Paginator $paginator = null): Result
     {
         return $this->query('PUT', $path, $parameters, $paginator);
     }
@@ -455,7 +455,7 @@ class Own3dId
      *
      * @return Result
      */
-    public function json(string $method, string $path = '', array $body = null): Result
+    public function json(string $method, string $path = '', ?array $body = null): Result
     {
         return $this->query($method, $path, [], null, $body);
     }
@@ -474,7 +474,7 @@ class Own3dId
      *
      * @return Result Result object
      */
-    public function query(string $method = 'GET', string $path = '', array $parameters = [], Paginator $paginator = null, $jsonBody = null): Result
+    public function query(string $method = 'GET', string $path = '', array $parameters = [], ?Paginator $paginator = null, mixed $jsonBody = null): Result
     {
         if (null !== $paginator) {
             $parameters[$paginator->action] = $paginator->cursor();

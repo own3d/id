@@ -10,5 +10,5 @@ use Own3d\Id\Result;
  */
 trait Delete
 {
-    abstract public function delete(string $path = '', array $parameters = [], Paginator $paginator = null): Result;
+    abstract public function delete(string $path = '', array $parameters = [], ?Paginator $paginator = null): Result;
 }

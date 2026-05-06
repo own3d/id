@@ -10,5 +10,5 @@ use Own3d\Id\Result;
  */
 trait Post
 {
-    abstract public function post(string $path = '', array $parameters = [], Paginator $paginator = null): Result;
+    abstract public function post(string $path = '', array $parameters = [], ?Paginator $paginator = null): Result;
 }
