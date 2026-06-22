@@ -139,6 +139,14 @@ class Scope
 
     /**
      * Manage a user's codespace
+     *
+     * @deprecated Use CODESPACES_MANAGE instead
      */
     public const CODESPACES_USE = 'codespaces:manage';
+
+
+    /**
+     * Manage a user's codespace
+     */
+    public const CODESPACES_MANAGE = 'codespaces:manage';
 }
