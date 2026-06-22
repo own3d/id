@@ -95,7 +95,9 @@ class Result
             $this->setProperty($jsonResponse, 'data');
             $this->setProperty($jsonResponse, 'total');
             $this->setProperty($jsonResponse, 'pagination');
-            $this->paginator = Paginator::from($this);
+            if (null !== $this->pagination) {
+                $this->paginator = Paginator::from($this);
+            }
         }
     }
 
