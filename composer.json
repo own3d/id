@@ -1,13 +1,33 @@
 {
-  "name": "own3d/id",
-  "description": "PHP OWN3D ID API Client for Laravel 5+",
-  "license": "MIT",
   "authors": [
     {
       "name": "René Preuß",
       "email": "rene.p@own3d.tv"
     }
   ],
+  "autoload": {
+    "psr-4": {
+      "Own3d\\Id\\": "src"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "Own3d\\Id\\Tests\\": "tests"
+    }
+  },
+  "description": "PHP OWN3D ID API Client for Laravel 5+",
+  "extra": {
+    "laravel": {
+      "providers": [
+        "Own3d\\Id\\Providers\\Own3dIdServiceProvider"
+      ],
+      "aliases": {
+        "Own3dId": "Own3d\\Id\\Facades\\Own3dId"
+      }
+    }
+  },
+  "license": "MIT",
+  "name": "own3d/id",
   "require": {
     "php": "^8.2",
     "ext-json": "*",
@@ -19,18 +39,8 @@
     "firebase/php-jwt": "^7.0"
   },
   "require-dev": {
-    "phpunit/phpunit": "^8.0|^9.0|^11.0",
-    "orchestra/testbench": "^8.0|^9.0|^10.0|^11.0"
-  },
-  "autoload": {
-    "psr-4": {
-      "Own3d\\Id\\": "src"
-    }
-  },
-  "autoload-dev": {
-    "psr-4": {
-      "Own3d\\Id\\Tests\\": "tests"
-    }
+    "phpunit/phpunit": "^8.0|^9.0|^11.0|^12.0",
+    "orchestra/testbench": "^8.0|^9.0|^10.0|^11.0|^12.0|^13.0"
   },
   "scripts": {
     "test": "vendor/bin/phpunit",
@@ -38,15 +48,5 @@
     "fix": [
       "vendor/bin/php-cs-fixer fix"
     ]
-  },
-  "extra": {
-    "laravel": {
-      "providers": [
-        "Own3d\\Id\\Providers\\Own3dIdServiceProvider"
-      ],
-      "aliases": {
-        "Own3dId": "Own3d\\Id\\Facades\\Own3dId"
-      }
-    }
   }
 }

@@ -21,7 +21,7 @@ trait HasOwn3dIdToken
         return $this->own3dIdToken;
     }
 
-    public function withOwn3dIdToken($decoded): self
+    public function withOwn3dIdToken(string $decoded): self
     {
         $this->own3dIdToken = $decoded;
 

@@ -19,63 +19,63 @@ class Result
      *
      * @var bool
      */
-    public $success = false;
+    public bool $success = false;
 
     /**
      * Guzzle exception, if present.
      *
      * @var mixed|null
      */
-    public $exception = null;
+    public mixed $exception = null;
 
     /**
      * Query result data.
      *
-     * @var array
+     * @var mixed
      */
-    public $data = [];
+    public mixed $data = [];
 
     /**
      * Total amount of result data.
      *
      * @var int
      */
-    public $total = 0;
+    public int $total = 0;
 
     /**
      * Status Code.
      *
      * @var int
      */
-    public $status = 0;
+    public int $status = 0;
 
     /**
      * OWN3D ID response pagination cursor.
      *
      * @var \stdClass|null
      */
-    public $pagination;
+    public ?stdClass $pagination = null;
 
     /**
      * Internal paginator.
      *
      * @var Paginator|null
      */
-    public $paginator;
+    public ?Paginator $paginator = null;
 
     /**
      * Original Guzzle HTTP Response.
      *
      * @var ResponseInterface|null
      */
-    public $response;
+    public ?ResponseInterface $response = null;
 
     /**
      * Original OWN3D ID instance.
      *
      * @var Own3dId
      */
-    public $own3dId;
+    public Own3dId $own3dId;
 
     /**
      * Constructor,.
@@ -131,7 +131,7 @@ class Result
      *
      * @return mixed
      */
-    public function data()
+    public function data(): mixed
     {
         return $this->data;
     }
@@ -161,7 +161,7 @@ class Result
      *
      * @return mixed Shifted data
      */
-    public function shift()
+    public function shift(): mixed
     {
         if ( ! empty($this->data)) {
             $data = $this->data;
@@ -219,7 +219,7 @@ class Result
      *
      * @return string|array|null
      */
-    public function rateLimit(?string $key = null)
+    public function rateLimit(?string $key = null): string|array|null
     {
         if ( ! $this->response) {
             return null;
@@ -264,7 +264,7 @@ class Result
         return $this;
     }
 
-    public function response()
+    public function response(): ?ResponseInterface
     {
         return $this->response;
     }

@@ -7,6 +7,8 @@ use GuzzleHttp\Exception\GuzzleException;
 use GuzzleHttp\Exception\RequestException;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Route;
+use Own3d\Id\Contracts\HasOwn3dAccessToken;
+use Own3d\Id\Http\Controllers\Auth\SocialiteController;
 use Own3d\Id\Exceptions\RequestRequiresAuthenticationException;
 use Own3d\Id\Exceptions\RequestRequiresClientIdException;
 use Own3d\Id\Exceptions\RequestRequiresRedirectUriException;
@@ -124,11 +126,10 @@ class Own3dId
     public static function routes(array $options = []): void
     {
         Route::middleware($options['middleware'] ?? 'web')
-            ->namespace('\Own3d\Id\Http\Controllers')
             ->group(static function () {
-                Route::get('login', 'Auth\SocialiteController@redirect')->name('login');
-                Route::post('logout', 'Auth\SocialiteController@logout')->name('logout');
-                Route::get('login/callback', 'Auth\SocialiteController@callback');
+                Route::get('login', [SocialiteController::class, 'redirect'])->name('login');
+                Route::post('logout', [SocialiteController::class, 'logout'])->name('logout');
+                Route::get('login/callback', [SocialiteController::class, 'callback']);
             });
     }
 
@@ -374,11 +375,11 @@ class Own3dId
     /**
      * Fluid OAuth user setter.
      *
-     * @param Traits\Own3dIdUser $user OWN3D ID OAuth user
+     * @param HasOwn3dAccessToken $user OWN3D ID OAuth user
      *
      * @return $this
      */
-    public function actingAs(Traits\Own3dIdUser $user): self
+    public function actingAs(HasOwn3dAccessToken $user): self
     {
         $this->withToken($user->getOwn3dAccessToken());
 

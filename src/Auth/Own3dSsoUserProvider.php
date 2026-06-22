@@ -38,7 +38,7 @@ class Own3dSsoUserProvider implements UserProvider
         $this->newUserCallback = $newUserCallback;
     }
 
-    public static function register()
+    public static function register(): void
     {
         Auth::provider(
             'sso-users',
@@ -120,17 +120,17 @@ class Own3dSsoUserProvider implements UserProvider
             : $model->newQuery();
     }
 
-    public function retrieveByToken($identifier, $token)
+    public function retrieveByToken($identifier, $token): ?Authenticatable
     {
         return null;
     }
 
-    public function updateRememberToken(Authenticatable $user, $token)
+    public function updateRememberToken(Authenticatable $user, $token): void
     {
         // void
     }
 
-    public function retrieveByCredentials(array $credentials)
+    public function retrieveByCredentials(array $credentials): ?Authenticatable
     {
         return null;
     }

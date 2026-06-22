@@ -5,6 +5,7 @@ namespace Own3d\Id\Traits;
 use Carbon\CarbonInterface;
 use Illuminate\Support\Carbon;
 use Own3d\Id\Auth\HasOwn3dIdToken;
+use Own3d\Id\Contracts\HasOwn3dAccessToken;
 use Own3d\Id\Permission\HasOwn3dIdPermissions;
 
 /**
@@ -12,6 +13,8 @@ use Own3d\Id\Permission\HasOwn3dIdPermissions;
  *
  * @property string own3d_id
  * @property array own3d_user
+ *
+ * @implements HasOwn3dAccessToken
  */
 trait Own3dIdUser
 {
